@@ -1,6 +1,7 @@
 import "./styles/main.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import AuthPage from "./pages/Auth";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -127,18 +128,6 @@ function HelpPage() {
 	);
 }
 
-// ===== Auth Section =====
-function AuthPage() {
-	return (
-		<section className="section">
-			<div className="section__content">
-				<h2 className="section__title">Login / Register</h2>
-				<p className="section__text">
-					Placeholder for authentication forms and onboarding steps.
-				</p>
-			</div>
-		</section>
-	);
-}
+// Auth Section has been moved to src/pages/Auth.jsx
 
 export default App;
