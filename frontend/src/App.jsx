@@ -2,6 +2,7 @@ import "./styles/main.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/Auth";
+import Support from "./pages/Support";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -74,7 +75,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/loan-details" element={<LoanDetailsPage />} />
-						<Route path="/help" element={<HelpPage />} />
+						<Route path="/help" element={<Support />} />
 						<Route path="/auth" element={<AuthPage />} />
 					</Routes>
 				</main>
