@@ -3,6 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 const userRoutes = require('./routes/userRoutes');
+const loanRoutes = require('./routes/loanRoutes');
+const bankRoutes = require('./routes/bankRoutes');
 
 dotenv.config();
 
@@ -16,6 +18,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/loans', loanRoutes);
+app.use('/api/banks', bankRoutes);
+app.use('/api', bankRoutes); // This will handle /api/emi/calculate and /api/eligibility/check
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });

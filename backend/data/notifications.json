@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "notif-1",
+    "userId": "user-1",
+    "title": "EMI Due Reminder",
+    "message": "Your EMI of ₹22,731 is due on Jun 05, 2026.",
+    "type": "warning",
+    "timestamp": "2026-05-08T10:00:00Z",
+    "read": false
+  },
+  {
+    "_id": "notif-2",
+    "userId": "user-1",
+    "title": "Document Approved",
+    "message": "Your Aadhaar Card has been successfully verified.",
+    "type": "success",
+    "timestamp": "2026-05-07T15:30:00Z",
+    "read": true
+  },
+  {
+    "_id": "notif-3",
+    "userId": "user-1",
+    "title": "Payment Successful",
+    "message": "EMI for May has been successfully processed.",
+    "type": "info",
+    "timestamp": "2026-05-01T09:15:00Z",
+    "read": true
+  }
+]

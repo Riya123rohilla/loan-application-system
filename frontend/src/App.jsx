@@ -2,6 +2,7 @@ import "./styles/main.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/Auth";
+import LoanDetails from "./pages/LoanDetails";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -50,7 +51,7 @@ function App() {
 						<NavLink className={navLinkClass} to="/">
 							Home
 						</NavLink>
-						<NavLink className={navLinkClass} to="/loan-details">
+						<NavLink className={navLinkClass} to="/loan-details/loan-456">
 							Loan Details
 						</NavLink>
 						<NavLink className={navLinkClass} to="/help">
@@ -73,7 +74,8 @@ function App() {
 				<main>
 					<Routes>
 						<Route path="/" element={<HomePage />} />
-						<Route path="/loan-details" element={<LoanDetailsPage />} />
+						<Route path="/loan-details/:id" element={<LoanDetails />} />
+						<Route path="/loan-details" element={<LoanDetails />} />
 						<Route path="/help" element={<HelpPage />} />
 						<Route path="/auth" element={<AuthPage />} />
 					</Routes>
@@ -99,20 +101,7 @@ function HomePage() {
 	);
 }
 
-// ===== Loan Details Section =====
-function LoanDetailsPage() {
-	return (
-		<section className="section">
-			<div className="section__content">
-				<h2 className="section__title">Loan Details</h2>
-				<p className="section__text">
-					Placeholder for loan product information, eligibility, rates, and
-					documentation requirements.
-				</p>
-			</div>
-		</section>
-	);
-}
+// ===== Loan Details Section has been moved to src/pages/LoanDetails.jsx
 
 // ===== How It Works Section =====
 function HelpPage() {
