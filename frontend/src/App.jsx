@@ -1,7 +1,10 @@
 import "./styles/main.css";
-import { useEffect, useState } from "react";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
 import AuthPage from "./pages/Auth";
+<<<<<<< HEAD
 import LoanDetails from "./pages/LoanDetails";
 
 const navLinkClass = ({ isActive }) =>
@@ -9,18 +12,17 @@ const navLinkClass = ({ isActive }) =>
 
 const navCtaClass = ({ isActive }) =>
 	`navbar__link navbar__link--cta${isActive ? " navbar__link--active" : ""}`;
+=======
+import LoanApplication from "./pages/Application/LoanApplication";
+import Products from "./pages/Products";
+import Help from "./pages/Help";
+>>>>>>> origin/main
 
 function App() {
-	const [isLightMode, setIsLightMode] = useState(false);
-
-	useEffect(() => {
-		document.body.classList.toggle("theme-light", isLightMode);
-		return () => document.body.classList.remove("theme-light");
-	}, [isLightMode]);
-
 	return (
 		<BrowserRouter>
 			<div className="app">
+<<<<<<< HEAD
 				{/* ===== Navbar Component ===== */}
 				<header className="navbar">
 					<div className="navbar__brand">
@@ -77,14 +79,25 @@ function App() {
 						<Route path="/loan-details/:id" element={<LoanDetails />} />
 						<Route path="/loan-details" element={<LoanDetails />} />
 						<Route path="/help" element={<HelpPage />} />
+=======
+				<Navbar />
+				<main>
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/apply" element={<LoanApplication />} />
+						<Route path="/loan-details" element={<Products />} />
+						<Route path="/help" element={<Help />} />
+>>>>>>> origin/main
 						<Route path="/auth" element={<AuthPage />} />
 					</Routes>
 				</main>
+				<Footer />
 			</div>
 		</BrowserRouter>
 	);
 }
 
+<<<<<<< HEAD
 // ===== Home Section =====
 function HomePage() {
 	return (
@@ -119,4 +132,9 @@ function HelpPage() {
 
 // Auth Section has been moved to src/pages/Auth.jsx
 
+=======
+>>>>>>> origin/main
 export default App;
+
+
+
