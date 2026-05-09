@@ -25,6 +25,11 @@ body.theme-light .enterprise-card {
   box-shadow: 0 10px 40px rgba(15, 33, 71, 0.05);
 }
 
+body.theme-light .hero-v4 {
+  background: linear-gradient(135deg, #0a1628 0%, #162a50 40%, #1a3a6e 70%, #0f2147 100%);
+  color: #ffffff;
+}
+
 .enterprise-card:hover {
   transform: translateY(-8px);
   border-color: var(--blue-400);

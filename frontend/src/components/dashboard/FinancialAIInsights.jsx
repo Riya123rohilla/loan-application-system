@@ -31,7 +31,14 @@ const FinancialAIInsights = () => {
           transition={{ delay: idx * 0.2 }}
         >
           <h4 style={{ margin: '0 0 8px 0', fontSize: '1rem' }}>{insight.title}</h4>
-          <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.7, lineHeight: '1.5' }}>{insight.message}</p>
+          <p style={{ margin: '0 0 15px 0', fontSize: '0.85rem', opacity: 0.7, lineHeight: '1.5' }}>{insight.message}</p>
+          <button 
+            className="btn-action" 
+            style={{ fontSize: '0.7rem', padding: '6px 15px', background: 'rgba(255,255,255,0.05)' }}
+            onClick={() => toast.success(`Applying optimization: ${insight.title}`)}
+          >
+            Optimize Now
+          </button>
         </motion.div>
       ))}
     </div>

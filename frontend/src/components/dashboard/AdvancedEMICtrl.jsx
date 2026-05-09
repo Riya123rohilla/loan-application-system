@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const AdvancedEMICtrl = () => {
   const [extraPayment, setExtraPayment] = useState(5000);
@@ -6,6 +7,10 @@ const AdvancedEMICtrl = () => {
 
   const interestSaved = extraPayment * (tenure / 2); // Mock calculation
   const monthsReduced = Math.floor(extraPayment / 1000);
+
+  const handleApply = () => {
+    toast.success(`Simulation applied! New EMI strategy optimized for ₹${extraPayment} extra/month.`);
+  };
 
   return (
     <div className="control-panel-grid">
@@ -48,7 +53,13 @@ const AdvancedEMICtrl = () => {
             <span className="summary-label">Loan Closure Prediction</span>
             <span style={{ fontWeight: '700' }}>Oct 2028</span>
          </div>
-         <button className="navbar__link--cta" style={{ border: 'none', padding: '10px', fontSize: '0.85rem' }}>Apply New EMI</button>
+         <button 
+           className="navbar__link--cta" 
+           style={{ border: 'none', padding: '10px', fontSize: '0.85rem' }}
+           onClick={handleApply}
+         >
+           Apply New EMI
+         </button>
       </div>
     </div>
   );

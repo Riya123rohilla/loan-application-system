@@ -1,6 +1,15 @@
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const EnterpriseMarketplace = ({ banks }) => {
+  const handleApply = (name) => {
+    const loading = toast.loading(`Starting application with ${name}...`);
+    setTimeout(() => {
+      toast.success(`Application submitted to ${name}!`);
+      toast.dismiss(loading);
+    }, 1500);
+  };
+
   return (
     <div style={{ overflowX: 'auto' }}>
       <table className="marketplace-table">
@@ -39,7 +48,11 @@ const EnterpriseMarketplace = ({ banks }) => {
                 </div>
               </td>
               <td>
-                <button className="navbar__link--cta" style={{ fontSize: '0.75rem', padding: '8px 20px', border: 'none' }}>
+                <button 
+                  className="navbar__link--cta" 
+                  style={{ fontSize: '0.75rem', padding: '8px 20px', border: 'none' }}
+                  onClick={() => handleApply(bank.name)}
+                >
                   Apply Now
                 </button>
               </td>

@@ -1,157 +1,143 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { DashboardProvider, useDashboard } from '../context/DashboardContext';
+import useDashboardStore from '../store/dashboardStore';
 
 // Enterprise Components
 import LoanFilterBar from '../components/dashboard/LoanFilterBar';
 import HeroV4 from '../components/dashboard/HeroV4';
-import AdvancedEMICtrl from '../components/dashboard/AdvancedEMICtrl';
-import FinancialAIInsights from '../components/dashboard/FinancialAIInsights';
-import EnterpriseMarketplace from '../components/dashboard/EnterpriseMarketplace';
+import SimulationEngine from '../components/dashboard/SimulationEngine';
+import FintechAIAdvisor from '../components/dashboard/FintechAIAdvisor';
+import FintechMarketplace from '../components/dashboard/FintechMarketplace';
 import NotificationPanel from '../components/dashboard/NotificationPanel';
 import RepaymentTimeline from '../components/dashboard/RepaymentTimeline';
-import FinancialInsights from '../components/dashboard/FinancialInsights';
+import FintechAnalytics from '../components/dashboard/FintechAnalytics';
 import SmartEligibilityGauge from '../components/dashboard/SmartEligibilityGauge';
-import BankComparisonTable from '../components/dashboard/BankComparisonTable';
-import DashboardModal from '../components/dashboard/DashboardModal';
+import RepaymentCalendar from '../components/dashboard/RepaymentCalendar';
+import AdvancedPaymentModal from '../components/dashboard/AdvancedPaymentModal';
+import DocumentVault from '../components/dashboard/DocumentVault';
 
-// Existing Styles
 import '../styles/loan-details.css';
 
 const EnterpriseCard = ({ children, title, icon, subtitle, className = "" }) => (
   <div className={`enterprise-card ${className}`}>
     {title && (
-      <div style={{ marginBottom: '25px' }}>
-        <h3 className="card-title" style={{ marginBottom: '5px', fontSize: '1.25rem', fontWeight: '800' }}>
-          {icon && <span style={{ marginRight: '12px' }}>{icon}</span>}
+      <div style={{ marginBottom: '22px' }}>
+        <h3 className="card-title" style={{ marginBottom: '4px', fontSize: '1.15rem', fontWeight: '800' }}>
+          {icon && <span style={{ marginRight: '10px' }}>{icon}</span>}
           {title}
         </h3>
-        {subtitle && <p className="summary-label" style={{ fontSize: '0.75rem', opacity: 0.5 }}>{subtitle}</p>}
+        {subtitle && <p className="summary-label" style={{ fontSize: '0.7rem', opacity: 0.45 }}>{subtitle}</p>}
       </div>
     )}
     {children}
   </div>
 );
 
-const LoanDashboardContent = () => {
-  const { loan, banks, repayments, notifications, loading, handleDocumentUpload } = useDashboard();
-  const [isDocModalOpen, setIsDocModalOpen] = useState(false);
-  const [selectedDoc, setSelectedDoc] = useState(null);
+const LoanDetails = () => {
+  const { loan, loading, fetchDashboardData, fetchMarketplace, activeCategory, isPayModalOpen, setPayModalOpen, loanProgress } = useDashboardStore();
 
-  if (loading) {
+  useEffect(() => { fetchDashboardData(); }, [fetchDashboardData]);
+  useEffect(() => { fetchMarketplace(); }, [activeCategory, fetchMarketplace]);
+
+  if (loading || !loan) {
     return (
       <div className="dashboard-container" style={{ height: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div className="spinner"></div>
-        <p style={{ marginTop: '20px', opacity: 0.5, letterSpacing: '0.2em' }}>SYNCHRONIZING SECURE DASHBOARD...</p>
+        <p style={{ marginTop: '20px', opacity: 0.5, letterSpacing: '0.2em', fontSize: '0.7rem' }}>SYNCING SECURE DATA STREAMS...</p>
       </div>
     );
   }
 
-  const handleDocClick = (doc) => {
-    setSelectedDoc(doc);
-    setIsDocModalOpen(true);
-  };
-
   return (
     <div className="dashboard-container">
-      <HeroV4 />
+      <Toaster position="top-right" toastOptions={{ style: { background: '#0f2147', color: '#fff', border: '1px solid rgba(111,178,255,0.2)', borderRadius: '15px' } }} />
+      
+      <HeroV4 onPayClick={() => setPayModalOpen(true)} />
+
+      {/* Loan Progress Bar */}
+      <div style={{ margin: '0 0 30px', padding: '0 10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.7rem' }}>
+          <span style={{ opacity: 0.5 }}>Loan Completion</span>
+          <span style={{ fontWeight: '700', color: '#00c853' }}>{loanProgress()}%</span>
+        </div>
+        <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', overflow: 'hidden' }}>
+          <div style={{ height: '100%', width: `${loanProgress()}%`, background: 'linear-gradient(90deg, #6fb2ff, #00c853)', borderRadius: '10px', transition: 'width 0.8s ease' }}></div>
+        </div>
+      </div>
 
       <div className="dashboard-main-grid">
-        {/* Main Content Area */}
         <div className="grid-main-content">
-          <LoanFilterBar />
+          <div style={{ marginBottom: '25px' }}>
+            <LoanFilterBar />
+          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '30px' }}>
-            <EnterpriseCard title="EMI Strategy" icon="📊" subtitle="Optimize your repayments">
-               <AdvancedEMICtrl />
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '25px', marginBottom: '25px' }}>
+            <EnterpriseCard title="Strategic Simulator" icon="🧬" subtitle="Foreclosure & prepayment analysis">
+              <SimulationEngine />
             </EnterpriseCard>
-            <EnterpriseCard title="Financial AI" icon="🤖" subtitle="Intelligent insights">
-               <FinancialAIInsights />
+            <EnterpriseCard title="Intelligence Center" icon="🧠" subtitle="Dynamic AI recommendations">
+              <FintechAIAdvisor />
             </EnterpriseCard>
           </div>
 
-          <EnterpriseCard title="Lender Marketplace" icon="🏛️" subtitle="Side-by-side comparison">
-             <BankComparisonTable banks={banks} />
+          <EnterpriseCard title="Portfolio Analytics" icon="📊" subtitle="Real-time financial telemetry & forecasting">
+            <FintechAnalytics />
           </EnterpriseCard>
 
-          <EnterpriseCard title="Document Vault" icon="🔒" subtitle="Secure verification status">
-             <div className="document-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
-                {loan.documents.map((doc) => (
-                  <div 
-                    key={doc.id} 
-                    className="doc-card" 
-                    style={{ padding: '24px', cursor: 'pointer' }}
-                    onClick={() => handleDocClick(doc)}
-                  >
-                    <span className="doc-icon" style={{ fontSize: '1.5rem' }}>📄</span>
-                    <span className="doc-name" style={{ fontSize: '0.65rem' }}>{doc.name}</span>
-                    <span className={`badge badge--approved`} style={{ fontSize: '0.6rem' }}>{doc.status}</span>
-                  </div>
-                ))}
-             </div>
+          <EnterpriseCard title="Lender Marketplace" icon="🏛️" subtitle="Side-by-side comparison & quick apply">
+            <FintechMarketplace />
+          </EnterpriseCard>
+
+          <EnterpriseCard title="Document Vault" icon="🔒" subtitle="End-to-end encrypted verification center">
+            <DocumentVault />
           </EnterpriseCard>
         </div>
 
-        {/* Sidebar Streams */}
         <div className="grid-side-panel">
-          <EnterpriseCard title="Repayment Timeline" icon="⏳" subtitle="Recent transactions">
-             <RepaymentTimeline repayments={repayments} />
+          {/* Portfolio Officer */}
+          <EnterpriseCard title="Portfolio Officer" icon="👔">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'var(--blue-500)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>🤵</div>
+              <div>
+                <h4 style={{ margin: 0 }}>Arjun Mehra</h4>
+                <p className="summary-label" style={{ fontSize: '0.7rem' }}>Relationship Director</p>
+              </div>
+            </div>
+            <div style={{ marginTop: '15px', display: 'flex', gap: '8px' }}>
+              <button className="btn-action" style={{ flex: 1, fontSize: '0.75rem' }}>📞 Call</button>
+              <button className="btn-action" style={{ flex: 1, fontSize: '0.75rem' }}>📩 Message</button>
+            </div>
           </EnterpriseCard>
 
-          <EnterpriseCard title="Notification Center" icon="🔔">
-             <NotificationPanel notifications={notifications} />
+          {/* Transaction Feed */}
+          <EnterpriseCard title="Transaction Feed" icon="📜" subtitle="Latest payment activity">
+            <RepaymentTimeline />
           </EnterpriseCard>
 
-          <EnterpriseCard title="Financial Health" icon="❤️">
-             <div style={{ textAlign: 'center' }}>
-                <SmartEligibilityGauge score={loan.applicantDetails.creditScore} />
-                <p className="summary-label" style={{ marginTop: '15px' }}>Credit Tier: Platinum</p>
-             </div>
+          {/* Calendar */}
+          <EnterpriseCard title="Repayment Calendar" icon="📅" subtitle="Interactive financial planner">
+            <RepaymentCalendar />
+          </EnterpriseCard>
+
+          {/* Notifications */}
+          <EnterpriseCard title="Live Alerts" icon="🔔" subtitle="Real-time notifications">
+            <NotificationPanel />
+          </EnterpriseCard>
+
+          {/* Credit Health */}
+          <EnterpriseCard title="Credit Health" icon="❤️" subtitle="Score tracking & grade">
+            <SmartEligibilityGauge />
           </EnterpriseCard>
         </div>
       </div>
 
-      <DashboardModal 
-        isOpen={isDocModalOpen} 
-        onClose={() => setIsDocModalOpen(false)}
-        title="Document Details"
-      >
-        {selectedDoc && (
-          <div>
-            <div style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', marginBottom: '20px' }}>
-              <p><strong>Name:</strong> {selectedDoc.name}</p>
-              <p><strong>Type:</strong> {selectedDoc.type}</p>
-              <p><strong>Status:</strong> <span style={{ color: '#00c853' }}>{selectedDoc.status}</span></p>
-            </div>
-            <div style={{ display: 'flex', gap: '15px' }}>
-              <button className="navbar__link--cta" style={{ flex: 1, border: 'none' }}>Download</button>
-              <button 
-                className="btn-action" 
-                style={{ flex: 1 }}
-                onClick={() => {
-                  handleDocumentUpload({ name: selectedDoc.name });
-                  setIsDocModalOpen(false);
-                }}
-              >
-                Re-upload
-              </button>
-            </div>
-          </div>
-        )}
-      </DashboardModal>
+      <AdvancedPaymentModal isOpen={isPayModalOpen} onClose={() => setPayModalOpen(false)} />
 
-      <footer style={{ marginTop: '80px', padding: '40px', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center', opacity: 0.3 }}>
-         <p>LOANMATE ENTERPRISE • GEN-5 CORE BANKING ECOSYSTEM</p>
+      <footer style={{ marginTop: '80px', padding: '50px 0', borderTop: '1px solid rgba(255,255,255,0.04)', textAlign: 'center', opacity: 0.25 }}>
+        <p style={{ letterSpacing: '0.2em', fontSize: '0.7rem' }}>LOANMATE PLATINUM • v6.0.0 PRODUCTION-GRADE CORE</p>
       </footer>
     </div>
   );
 };
-
-const LoanDetails = () => (
-  <DashboardProvider>
-    <Toaster position="top-right" reverseOrder={false} />
-    <LoanDashboardContent />
-  </DashboardProvider>
-);
 
 export default LoanDetails;

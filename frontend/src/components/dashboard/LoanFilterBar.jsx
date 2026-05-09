@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDashboard } from '../../context/DashboardContext';
+import useDashboardStore from '../../store/dashboardStore';
 
 const LoanFilterBar = () => {
-  const { activeCategory, setActiveCategory } = useDashboard();
+  const { activeCategory, setActiveCategory } = useDashboardStore();
   
   const categories = [
     'Personal Loan', 'Home Loan', 'Education Loan', 

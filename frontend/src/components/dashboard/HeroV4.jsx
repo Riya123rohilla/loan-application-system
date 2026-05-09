@@ -1,14 +1,34 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useDashboard } from '../../context/DashboardContext';
+import toast from 'react-hot-toast';
+import useDashboardStore from '../../store/dashboardStore';
 
-const HeroV4 = () => {
-  const { loan, handlePayEMI } = useDashboard();
+const HeroV4 = ({ onPayClick }) => {
+  const loan = useDashboardStore((state) => state.loan);
 
   if (!loan) return null;
 
+  const onSchedule = () => {
+    toast.success("EMI payment scheduled for next month.");
+  };
+
+  const onDownload = () => {
+    toast.promise(
+      new Promise((resolve) => setTimeout(resolve, 1500)),
+      {
+        loading: 'Generating financial statement...',
+        success: 'Statement downloaded successfully!',
+        error: 'Download failed.',
+      }
+    );
+  };
+
+  const onTopup = () => {
+    toast("Top-up application initiated.", { icon: '💸' });
+  };
+
   return (
-    <motion.div 
+    <motion.div
       className="hero-v4"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -47,17 +67,24 @@ const HeroV4 = () => {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-         <button 
-           className="navbar__link--cta" 
-           style={{ padding: '20px 45px', fontSize: '1.1rem', border: 'none' }}
-           onClick={handlePayEMI}
-         >
-           Instant EMI Pay
-         </button>
-         <div style={{ display: 'flex', gap: '10px' }}>
-            <button className="btn-action" style={{ flex: 1, padding: '12px' }}>Download</button>
-            <button className="btn-action" style={{ flex: 1, padding: '12px' }}>Contact</button>
-         </div>
+        <button
+          className="navbar__link--cta"
+          style={{ padding: '20px 45px', fontSize: '1.1rem', border: 'none' }}
+          onClick={onPayClick}
+        >
+          Instant EMI Pay
+        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button className="btn-action" style={{ flex: 1, padding: '12px' }} onClick={onSchedule}>
+            Schedule
+          </button>
+          <button className="btn-action" style={{ flex: 1, padding: '12px' }} onClick={onDownload}>
+            Download
+          </button>
+          <button className="btn-action" style={{ flex: 1, padding: '12px' }} onClick={onTopup}>
+            Top-up
+          </button>
+        </div>
       </div>
     </motion.div>
   );
