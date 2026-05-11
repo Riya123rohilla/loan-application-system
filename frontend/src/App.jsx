@@ -1,8 +1,13 @@
 import "./styles/main.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import AuthPage from "./pages/Auth";
 import LoanDetails from "./pages/LoanDetails";
+import Home from "./pages/Home";
+import Help from "./pages/Help";
+import Products from "./pages/Products";
+import LoanApplication from "./pages/Application/LoanApplication";
+import UserDashboard from "./userdashboard/UserDashboard";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -10,18 +15,21 @@ const navLinkClass = ({ isActive }) =>
 const navCtaClass = ({ isActive }) =>
 	`navbar__link navbar__link--cta${isActive ? " navbar__link--active" : ""}`;
 
-function App() {
+function AppShell() {
 	const [isLightMode, setIsLightMode] = useState(false);
+	const location = useLocation();
 
 	useEffect(() => {
 		document.body.classList.toggle("theme-light", isLightMode);
 		return () => document.body.classList.remove("theme-light");
 	}, [isLightMode]);
 
+	const isDashboard = location.pathname.startsWith("/dashboard");
+
 	return (
-		<BrowserRouter>
-			<div className="app">
-				{/* ===== Navbar Component ===== */}
+		<div className="app">
+			{/* ===== Navbar Component ===== */}
+			{!isDashboard && (
 				<header className="navbar">
 					<div className="navbar__brand">
 						<span className="logo" aria-label="LoanMate">
@@ -53,6 +61,8 @@ function App() {
 						</NavLink>
 						<NavLink className={navLinkClass} to="/loan-details/loan-456">
 							Loan Details
+						<NavLink className={navLinkClass} to="/products">
+							Products
 						</NavLink>
 						<NavLink className={navLinkClass} to="/help">
 							Help
@@ -70,6 +80,7 @@ function App() {
 						</button>
 					</nav>
 				</header>
+			)}
 
 				<main>
 					<Routes>
@@ -82,41 +93,29 @@ function App() {
 				</main>
 			</div>
 		</BrowserRouter>
+			<main>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/products" element={<Products />} />
+					<Route path="/help" element={<Help />} />
+					<Route path="/auth" element={<AuthPage />} />
+					<Route path="/apply" element={<LoanApplication />} />
+					<Route path="/dashboard/*" element={<UserDashboard />} />
+				</Routes>
+			</main>
+		</div>
 	);
 }
 
-// ===== Home Section =====
-function HomePage() {
+function App() {
 	return (
-		<section className="section section--hero">
-			<div className="section__content">
-				<p className="section__eyebrow">Loan Application System</p>
-				<h1 className="section__title">Simple. Secure. Smart Lending.</h1>
-				<p className="section__text">
-					A modern, streamlined platform for submitting and tracking loan
-					applications with confidence.
-				</p>
-			</div>
-		</section>
+		<BrowserRouter>
+			<AppShell />
+		</BrowserRouter>
 	);
 }
-
-// ===== Loan Details Section has been moved to src/pages/LoanDetails.jsx
-
-// ===== How It Works Section =====
-function HelpPage() {
-	return (
-		<section className="section section--alt">
-			<div className="section__content">
-				<h2 className="section__title">How It Works</h2>
-				<p className="section__text">
-					Placeholder for guidance, FAQs, and application support.
-				</p>
-			</div>
-		</section>
-	);
-}
-
-// Auth Section has been moved to src/pages/Auth.jsx
 
 export default App;
+
+
+

@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 
 function AuthPage() {
 	const [isLogin, setIsLogin] = useState(true);
+	const navigate = useNavigate();
 
 	const toggleMode = () => setIsLogin(!isLogin);
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		navigate("/dashboard");
+	};
 
 	return (
 		<section className="auth-section">
@@ -19,7 +25,7 @@ function AuthPage() {
 						</p>
 					</div>
 
-					<form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+					<form className="auth-form" onSubmit={handleSubmit}>
 						{!isLogin && (
 							<div className="form-group">
 								<label htmlFor="name">Full Name</label>
