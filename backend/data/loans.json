@@ -1,0 +1,39 @@
+[
+  {
+    "_id": "loan-456",
+    "userId": "user-123",
+    "amount": 500000,
+    "interestRate": 8.5,
+    "tenure": 24,
+    "emiAmount": 22731,
+    "applicationDate": "2026-05-01",
+    "loanType": "Personal Loan",
+    "status": "Approved",
+    "applicantDetails": {
+      "fullName": "John Doe",
+      "email": "john.doe@example.com",
+      "phoneNumber": "+1 234 567 8900",
+      "employmentType": "Full-time",
+      "monthlyIncome": 85000
+    },
+    "documents": {
+      "panCard": { "status": "Approved", "url": "#" },
+      "aadhaar": { "status": "Approved", "url": "#" },
+      "salarySlip": { "status": "Approved", "url": "#" },
+      "bankStatement": { "status": "Approved", "url": "#" }
+    },
+    "repaymentDetails": {
+      "totalPayableAmount": 545544,
+      "paidAmount": 45462,
+      "pendingAmount": 500082,
+      "nextDueDate": "2026-06-01",
+      "schedule": [
+        { "dueDate": "2026-05-01", "amount": 22731, "status": "Paid" },
+        { "dueDate": "2026-06-01", "amount": 22731, "status": "Upcoming" },
+        { "dueDate": "2026-07-01", "amount": 22731, "status": "Upcoming" }
+      ]
+    },
+    "createdAt": "2026-05-01T10:00:00.000Z",
+    "updatedAt": "2026-05-01T10:00:00.000Z"
+  }
+]

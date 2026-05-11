@@ -2,6 +2,7 @@ import "./styles/main.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import AuthPage from "./pages/Auth";
+import LoanDetails from "./pages/LoanDetails";
 import Home from "./pages/Home";
 import Help from "./pages/Help";
 import Products from "./pages/Products";
@@ -58,6 +59,8 @@ function AppShell() {
 						<NavLink className={navLinkClass} to="/">
 							Home
 						</NavLink>
+						<NavLink className={navLinkClass} to="/loan-details/loan-456">
+							Loan Details
 						<NavLink className={navLinkClass} to="/products">
 							Products
 						</NavLink>
@@ -79,6 +82,17 @@ function AppShell() {
 				</header>
 			)}
 
+				<main>
+					<Routes>
+						<Route path="/" element={<HomePage />} />
+						<Route path="/loan-details/:id" element={<LoanDetails />} />
+						<Route path="/loan-details" element={<LoanDetails />} />
+						<Route path="/help" element={<HelpPage />} />
+						<Route path="/auth" element={<AuthPage />} />
+					</Routes>
+				</main>
+			</div>
+		</BrowserRouter>
 			<main>
 				<Routes>
 					<Route path="/" element={<Home />} />

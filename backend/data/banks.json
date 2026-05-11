@@ -1,0 +1,41 @@
+[
+  {
+    "_id": "bank-1",
+    "name": "SBI",
+    "logo": "🏦",
+    "loanTypes": {
+      "Personal Loan": { "rate": 10.5, "fee": "1%", "maxAmount": 2000000, "tenure": 60, "speed": "3-5 Days", "minScore": 700 },
+      "Home Loan": { "rate": 8.4, "fee": "0.5%", "maxAmount": 50000000, "tenure": 360, "speed": "7-15 Days", "minScore": 750 },
+      "Education Loan": { "rate": 9.5, "fee": "0%", "maxAmount": 1500000, "tenure": 120, "speed": "5-10 Days", "minScore": 650 },
+      "Car Loan": { "rate": 8.7, "fee": "1500", "maxAmount": 5000000, "tenure": 84, "speed": "2-4 Days", "minScore": 700 },
+      "Business Loan": { "rate": 12.5, "fee": "2%", "maxAmount": 10000000, "tenure": 48, "speed": "10-20 Days", "minScore": 720 },
+      "Gold Loan": { "rate": 7.5, "fee": "0.5%", "maxAmount": 2000000, "tenure": 12, "speed": "1 Day", "minScore": 600 }
+    }
+  },
+  {
+    "_id": "bank-2",
+    "name": "HDFC",
+    "logo": "🏦",
+    "loanTypes": {
+      "Personal Loan": { "rate": 10.75, "fee": "1.5%", "maxAmount": 4000000, "tenure": 72, "speed": "1 Day", "minScore": 720 },
+      "Home Loan": { "rate": 8.5, "fee": "0.5%", "maxAmount": 100000000, "tenure": 360, "speed": "5-10 Days", "minScore": 750 },
+      "Education Loan": { "rate": 10.2, "fee": "1%", "maxAmount": 2000000, "tenure": 180, "speed": "4-7 Days", "minScore": 680 },
+      "Car Loan": { "rate": 8.9, "fee": "2500", "maxAmount": 10000000, "tenure": 84, "speed": "1 Day", "minScore": 720 },
+      "Business Loan": { "rate": 13.0, "fee": "1.5%", "maxAmount": 50000000, "tenure": 60, "speed": "7-12 Days", "minScore": 740 },
+      "Gold Loan": { "rate": 8.0, "fee": "0.2%", "maxAmount": 5000000, "tenure": 24, "speed": "1 Hour", "minScore": 550 }
+    }
+  },
+  {
+    "_id": "bank-3",
+    "name": "ICICI",
+    "logo": "🏦",
+    "loanTypes": {
+      "Personal Loan": { "rate": 10.65, "fee": "1%", "maxAmount": 3000000, "tenure": 60, "speed": "2 Days", "minScore": 710 },
+      "Home Loan": { "rate": 8.6, "fee": "0.75%", "maxAmount": 70000000, "tenure": 300, "speed": "6-12 Days", "minScore": 740 },
+      "Education Loan": { "rate": 9.8, "fee": "0.5%", "maxAmount": 2500000, "tenure": 144, "speed": "5-8 Days", "minScore": 670 },
+      "Car Loan": { "rate": 8.8, "fee": "2000", "maxAmount": 7500000, "tenure": 84, "speed": "2 Days", "minScore": 710 },
+      "Business Loan": { "rate": 12.75, "fee": "2%", "maxAmount": 30000000, "tenure": 60, "speed": "8-15 Days", "minScore": 730 },
+      "Gold Loan": { "rate": 7.9, "fee": "0.4%", "maxAmount": 3000000, "tenure": 36, "speed": "2 Hours", "minScore": 580 }
+    }
+  }
+]
