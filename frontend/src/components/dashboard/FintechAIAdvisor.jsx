@@ -7,31 +7,41 @@ const FintechAIAdvisor = () => {
 
   const recommendations = useMemo(() => {
     const list = [];
+    const category = useDashboardStore.getState().activeCategory;
     
     if (loan?.applicantDetails.creditScore > 800) {
       list.push({
-        title: 'Premium Refinance Opportunity',
-        message: 'Your elite credit score qualifies you for an interest rate reduction to 8.2%. Switch now to save ₹4.2L.',
+        title: `Premium ${category} Offer`,
+        message: `Your elite credit score qualifies you for an interest rate reduction to ${loan.interestRate - 0.5}%. Switch now to save ₹${Math.round(loan.totalLoan * 0.08 / 100000)}L.`,
         type: 'growth',
         action: 'View Offer'
+      });
+    }
+
+    if (category === 'Gold Loan') {
+      list.push({
+        title: 'Instant Liquidity Strategy',
+        message: 'Gold loans are processed in under 1 hour with zero processing fees. Ideal for short-term bridge financing.',
+        type: 'strategy',
+        action: 'Compare Rates'
+      });
+    } else if (category === 'Home Loan') {
+       list.push({
+        title: 'Tax Benefit Optimization',
+        message: 'Ensure you claim Section 24(b) deductions for interest payments on this Home Loan.',
+        type: 'info',
+        action: 'Tax Guide'
       });
     }
 
     if (simExtraPayment > 0) {
       list.push({
         title: 'Strategic Debt Acceleration',
-        message: `Your planned ₹${simExtraPayment.toLocaleString()} extra payment will cut 14 months off your tenure. Highly recommended.`,
+        message: `Your planned ₹${simExtraPayment.toLocaleString()} extra payment will cut significant months off your ${category} tenure.`,
         type: 'strategy',
         action: 'Execute Plan'
       });
     }
-
-    list.push({
-      title: 'Top-Up Liquidity Alert',
-      message: 'Based on your consistent repayment history, you have a pre-approved top-up of ₹10,00,000 at 9.0%.',
-      type: 'info',
-      action: 'Check Eligibility'
-    });
 
     return list;
   }, [loan, simExtraPayment]);

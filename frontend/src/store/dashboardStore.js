@@ -81,7 +81,52 @@ const useDashboardStore = create((set, get) => ({
 
   // ── Basic Setters ──
   setPayModalOpen: (v) => set({ isPayModalOpen: v }),
-  setActiveCategory: (c) => set({ activeCategory: c }),
+  setActiveCategory: (c) => {
+    const loanData = { ...MOCK_LOAN };
+    
+    // Simulate different details for each category
+    switch(c) {
+      case 'Home Loan':
+        loanData.interestRate = 8.4;
+        loanData.totalLoan = 7500000;
+        loanData.remainingBalance = 6200000;
+        loanData.emiAmount = 55000;
+        break;
+      case 'Education Loan':
+        loanData.interestRate = 9.2;
+        loanData.totalLoan = 1500000;
+        loanData.remainingBalance = 1200000;
+        loanData.emiAmount = 18000;
+        break;
+      case 'Gold Loan':
+        loanData.interestRate = 7.5;
+        loanData.totalLoan = 500000;
+        loanData.remainingBalance = 450000;
+        loanData.emiAmount = 45000;
+        break;
+      case 'Business Loan':
+        loanData.interestRate = 12.5;
+        loanData.totalLoan = 10000000;
+        loanData.remainingBalance = 8500000;
+        loanData.emiAmount = 150000;
+        break;
+      case 'Car Loan':
+        loanData.interestRate = 8.8;
+        loanData.totalLoan = 2500000;
+        loanData.remainingBalance = 2100000;
+        loanData.emiAmount = 35000;
+        break;
+      default:
+        // Personal Loan (Default)
+        loanData.interestRate = 10.5;
+        loanData.totalLoan = 5000000;
+        loanData.remainingBalance = 2450000;
+        loanData.emiAmount = 42731;
+    }
+
+    set({ activeCategory: c, loan: loanData });
+    get().fetchMarketplace();
+  },
   setSimExtraPayment: (v) => set({ simExtraPayment: v }),
   setSimTenure: (v) => set({ simTenure: v }),
   setChartPeriod: (v) => set({ chartPeriod: v }),
@@ -112,7 +157,12 @@ const useDashboardStore = create((set, get) => ({
     const { activeCategory } = get();
     try {
       const res = await axios.get(`/api/banks/category/${activeCategory}`);
-      if (res.data.banks?.length) set({ banks: res.data.banks });
+      if (res.data.banks?.length) {
+        set({ banks: res.data.banks });
+      } else {
+        // Filter mock banks as fallback
+        set({ banks: MOCK_BANKS });
+      }
     } catch {
       // keep existing mock banks
     }
