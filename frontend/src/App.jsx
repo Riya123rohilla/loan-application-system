@@ -1,7 +1,8 @@
 import "./styles/main.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import AuthPage from "./pages/Auth";
+import UserDashboard from "./userdashboard/UserDashboard";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -9,8 +10,10 @@ const navLinkClass = ({ isActive }) =>
 const navCtaClass = ({ isActive }) =>
 	`navbar__link navbar__link--cta${isActive ? " navbar__link--active" : ""}`;
 
-function App() {
+function AppShell() {
 	const [isLightMode, setIsLightMode] = useState(false);
+	const location = useLocation();
+	const isDashboard = location.pathname.startsWith("/dashboard");
 
 	useEffect(() => {
 		document.body.classList.toggle("theme-light", isLightMode);
@@ -18,9 +21,9 @@ function App() {
 	}, [isLightMode]);
 
 	return (
-		<BrowserRouter>
-			<div className="app">
-				{/* ===== Navbar Component ===== */}
+		<div className="app">
+			{/* ===== Navbar Component ===== */}
+			{!isDashboard && (
 				<header className="navbar">
 					<div className="navbar__brand">
 						<span className="logo" aria-label="LoanMate">
@@ -69,16 +72,25 @@ function App() {
 						</button>
 					</nav>
 				</header>
+			)}
 
-				<main>
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/loan-details" element={<LoanDetailsPage />} />
-						<Route path="/help" element={<HelpPage />} />
-						<Route path="/auth" element={<AuthPage />} />
-					</Routes>
-				</main>
-			</div>
+			<main>
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/loan-details" element={<LoanDetailsPage />} />
+					<Route path="/help" element={<HelpPage />} />
+					<Route path="/auth" element={<AuthPage />} />
+					<Route path="/dashboard/*" element={<UserDashboard />} />
+				</Routes>
+			</main>
+		</div>
+	);
+}
+
+function App() {
+	return (
+		<BrowserRouter>
+			<AppShell />
 		</BrowserRouter>
 	);
 }

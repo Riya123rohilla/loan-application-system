@@ -2,7 +2,6 @@
 
 A modern web-based platform that allows users to apply for loans, track application status in real-time, and manage repayments through an interactive and user-friendly dashboard.
 
----
 
 ## 📌 Overview
 
