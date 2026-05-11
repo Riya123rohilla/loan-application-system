@@ -1,7 +1,12 @@
 import "./styles/main.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import AuthPage from "./pages/Auth";
+import Home from "./pages/Home";
+import Help from "./pages/Help";
+import Products from "./pages/Products";
+import LoanApplication from "./pages/Application/LoanApplication";
+import UserDashboard from "./userdashboard/UserDashboard";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -9,18 +14,21 @@ const navLinkClass = ({ isActive }) =>
 const navCtaClass = ({ isActive }) =>
 	`navbar__link navbar__link--cta${isActive ? " navbar__link--active" : ""}`;
 
-function App() {
+function AppShell() {
 	const [isLightMode, setIsLightMode] = useState(false);
+	const location = useLocation();
 
 	useEffect(() => {
 		document.body.classList.toggle("theme-light", isLightMode);
 		return () => document.body.classList.remove("theme-light");
 	}, [isLightMode]);
 
+	const isDashboard = location.pathname.startsWith("/dashboard");
+
 	return (
-		<BrowserRouter>
-			<div className="app">
-				{/* ===== Navbar Component ===== */}
+		<div className="app">
+			{/* ===== Navbar Component ===== */}
+			{!isDashboard && (
 				<header className="navbar">
 					<div className="navbar__brand">
 						<span className="logo" aria-label="LoanMate">
@@ -50,8 +58,8 @@ function App() {
 						<NavLink className={navLinkClass} to="/">
 							Home
 						</NavLink>
-						<NavLink className={navLinkClass} to="/loan-details">
-							Loan Details
+						<NavLink className={navLinkClass} to="/products">
+							Products
 						</NavLink>
 						<NavLink className={navLinkClass} to="/help">
 							Help
@@ -69,16 +77,26 @@ function App() {
 						</button>
 					</nav>
 				</header>
+			)}
 
-				<main>
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/loan-details" element={<LoanDetailsPage />} />
-						<Route path="/help" element={<HelpPage />} />
-						<Route path="/auth" element={<AuthPage />} />
-					</Routes>
-				</main>
-			</div>
+			<main>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/products" element={<Products />} />
+					<Route path="/help" element={<Help />} />
+					<Route path="/auth" element={<AuthPage />} />
+					<Route path="/apply" element={<LoanApplication />} />
+					<Route path="/dashboard/*" element={<UserDashboard />} />
+				</Routes>
+			</main>
+		</div>
+	);
+}
+
+function App() {
+	return (
+		<BrowserRouter>
+			<AppShell />
 		</BrowserRouter>
 	);
 }
