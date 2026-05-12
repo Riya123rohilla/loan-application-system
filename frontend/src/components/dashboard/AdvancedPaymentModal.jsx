@@ -84,23 +84,25 @@ const AdvancedPaymentModal = ({ isOpen, onClose }) => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '25px' }}>
                 {paymentMethods.map(pm => (
                   <button key={pm.id} onClick={() => setMethod(pm.id)} style={{
-                    padding: '14px', borderRadius: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', color: 'white', transition: 'all 0.2s',
-                    background: method === pm.id ? 'var(--blue-500)' : 'rgba(255,255,255,0.04)',
-                    border: method === pm.id ? '1px solid var(--blue-400)' : '1px solid rgba(255,255,255,0.08)',
-                    boxShadow: method === pm.id ? '0 0 20px rgba(111,178,255,0.15)' : 'none'
+                    padding: '14px', borderRadius: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px',
+                    color: method === pm.id ? '#fff' : 'var(--dash-text)',
+                    transition: 'all 0.2s',
+                    background: method === pm.id ? 'var(--dash-accent)' : 'var(--dash-surface)',
+                    border: method === pm.id ? '1px solid var(--dash-accent)' : '1px solid var(--dash-border)',
+                    boxShadow: method === pm.id ? '0 0 20px var(--dash-accent-glow)' : 'none'
                   }}>
                     <span style={{ fontSize: '1.3rem' }}>{pm.icon}</span>
                     <div style={{ textAlign: 'left' }}>
                       <div style={{ fontSize: '0.8rem', fontWeight: '600' }}>{pm.label}</div>
-                      <div style={{ fontSize: '0.6rem', opacity: 0.5 }}>{pm.speed}</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--dash-text-muted)' }}>{pm.speed}</div>
                     </div>
                   </button>
                 ))}
               </div>
 
               <div style={{ display: 'flex', gap: '12px' }}>
-                <button className="btn-action" style={{ flex: 1 }} onClick={handleClose}>Cancel</button>
-                <button className="navbar__link--cta" style={{ flex: 2, border: 'none', fontSize: '1rem', padding: '14px' }} onClick={processPayment}>
+                <button className="btn-action secondary" style={{ flex: 1 }} onClick={handleClose}>Cancel</button>
+                <button className="btn-action" style={{ flex: 2, fontSize: '1rem', padding: '14px', background: 'var(--dash-accent)' }} onClick={processPayment}>
                   🔒 Secure Checkout
                 </button>
               </div>
@@ -137,8 +139,8 @@ const AdvancedPaymentModal = ({ isOpen, onClose }) => {
               )}
 
               <div style={{ display: 'flex', gap: '12px' }}>
-                <button className="btn-action" style={{ flex: 1 }} onClick={downloadReceipt}>📥 Receipt</button>
-                <button className="navbar__link--cta" style={{ flex: 2, border: 'none' }} onClick={handleClose}>Return to Dashboard</button>
+                <button className="btn-action secondary" style={{ flex: 1 }} onClick={downloadReceipt}>📥 Receipt</button>
+                <button className="btn-action" style={{ flex: 2, background: 'var(--dash-accent)' }} onClick={handleClose}>Return to Dashboard</button>
               </div>
             </motion.div>
           )}

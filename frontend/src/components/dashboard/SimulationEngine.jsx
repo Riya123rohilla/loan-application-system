@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import useDashboardStore from '../../store/dashboardStore';
 
-const SimulationEngine = () => {
+const SimulationEngine = ({ onExecute }) => {
   const { loan, simExtraPayment, setSimExtraPayment, simTenure, setSimTenure } = useDashboardStore();
   const [lumpSum, setLumpSum] = useState(100000);
 
@@ -64,11 +65,25 @@ const SimulationEngine = () => {
 
         <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)', margin: '15px 0' }}></div>
 
-        <div style={{ background: 'rgba(0, 200, 83, 0.05)', padding: '15px', borderRadius: '12px' }}>
-           <p style={{ margin: 0, fontSize: '0.75rem', color: '#00c853', lineHeight: '1.4' }}>
+        <div style={{ background: 'var(--dash-accent-glow)', padding: '15px', borderRadius: '12px', border: '1px solid var(--dash-accent)' }}>
+           <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--dash-accent)', lineHeight: '1.4' }}>
              🚀 <strong>Strategic Tip:</strong> Paying ₹{lumpSum.toLocaleString()} now will settle your loan <strong>{simulationResults.monthsReduced} months</strong> earlier!
            </p>
         </div>
+
+        <button 
+          className="btn-action" 
+          style={{ width: '100%', marginTop: '20px', padding: '16px' }}
+          onClick={() => {
+            onExecute({
+              amount: lumpSum,
+              interestSaved: simulationResults.interestSaved,
+              monthsReduced: simulationResults.monthsReduced
+            });
+          }}
+        >
+          Execute Prepayment Strategy ⚡
+        </button>
       </div>
     </div>
   );

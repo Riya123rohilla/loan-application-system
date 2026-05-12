@@ -36,8 +36,8 @@ const NotificationPanel = () => {
     <div>
       {unreadCount() > 0 && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-          <span style={{ fontSize: '0.7rem', color: '#ffc107', fontWeight: '700' }}>{unreadCount()} new</span>
-          <button onClick={markAllRead} style={{ background: 'none', border: 'none', color: 'var(--blue-400)', fontSize: '0.65rem', cursor: 'pointer', padding: 0 }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--dash-warning)', fontWeight: '700' }}>{unreadCount()} new</span>
+          <button onClick={markAllRead} style={{ background: 'none', border: 'none', color: 'var(--dash-accent)', fontSize: '0.75rem', cursor: 'pointer', padding: '4px 8px', fontWeight: '700', borderRadius: '6px' }}>
             Mark all read
           </button>
         </div>
