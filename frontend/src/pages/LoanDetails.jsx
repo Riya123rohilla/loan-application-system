@@ -97,24 +97,24 @@ const LoanDetails = () => {
         onTopupClick={() => setTopupOpen(true)}
       />
 
-      {/* Loan Completion Progress */}
-      <div className="enterprise-card" style={{ marginBottom: '32px', padding: '24px 32px' }}>
+      {/* Loan Completion Progress - High Impact Light Card */}
+      <div className="enterprise-card" style={{ marginTop: '40px', marginBottom: '32px', padding: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <div>
-            <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '700' }}>Overall Loan Progress</h4>
-            <p style={{ fontSize: '0.75rem', color: 'var(--dash-text-muted)', margin: '4px 0 0' }}>Your path to financial freedom</p>
+            <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '800', letterSpacing: '0.05em', color: 'var(--dash-text)' }}>OVERALL LOAN PROGRESS</h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--dash-text-muted)', margin: '4px 0 0' }}>Your path to financial freedom</p>
           </div>
-          <span style={{ fontWeight: '800', color: 'var(--dash-success)', fontSize: '1.2rem' }}>{loanProgress()}%</span>
+          <span style={{ fontWeight: '900', color: 'var(--dash-accent)', fontSize: '1.5rem' }}>{loanProgress()}%</span>
         </div>
-        <div style={{ height: '12px', background: 'var(--dash-border)', borderRadius: '20px', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ height: '14px', background: 'var(--dash-border)', borderRadius: '20px', overflow: 'hidden', position: 'relative' }}>
           <div 
             style={{ 
               height: '100%', 
               width: `${loanProgress()}%`, 
-              background: 'linear-gradient(90deg, var(--dash-accent), var(--dash-success))', 
+              background: 'linear-gradient(90deg, #4f46e5, #6366f1)', 
               borderRadius: '20px', 
               transition: 'width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              boxShadow: '0 0 15px var(--dash-accent-glow)'
+              boxShadow: '0 0 20px rgba(79, 70, 229, 0.2)'
             }} 
           />
         </div>

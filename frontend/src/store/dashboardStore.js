@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { showToast } from '../components/PremiumToast';
 
 // ─────────── MOCK DATA (Backend-ready fallbacks) ───────────
 const MOCK_LOAN = {
@@ -44,9 +44,9 @@ const MOCK_CREDIT_HISTORY = [
 ];
 
 const MOCK_DOCUMENTS = [
-  { id: 1, name: 'PAN Card', status: 'Pending', date: '-', icon: '📁' },
-  { id: 2, name: 'Aadhaar Card', status: 'Pending', date: '-', icon: '📁' },
-  { id: 3, name: 'Salary Slip', status: 'Pending', date: '-', icon: '📁' },
+  { id: 1, name: 'PAN Card', status: 'Verified', date: '2026-03-15', icon: '🛡️' },
+  { id: 2, name: 'Aadhaar Card', status: 'Verified', date: '2026-03-15', icon: '🛡️' },
+  { id: 3, name: 'Salary Slip', status: 'Processing', date: '2026-05-01', icon: '⏳' },
   { id: 4, name: 'Bank Statement', status: 'Pending', date: '-', icon: '📁' },
   { id: 5, name: 'Tax Returns', status: 'Pending', date: '-', icon: '📁' }
 ];
@@ -203,7 +203,7 @@ const useDashboardStore = create((set, get) => ({
       ]
     }));
 
-    toast.success(`₹${loan.emiAmount.toLocaleString()} paid successfully via ${method}!`);
+    showToast(`₹${loan.emiAmount.toLocaleString()} paid successfully via ${method}!`, 'success');
     return true;
   },
 
@@ -230,10 +230,10 @@ const useDashboardStore = create((set, get) => ({
       documents: s.documents.map(d => d.id === docId ? { ...d, status: 'Reviewing', date: new Date().toLocaleDateString(), icon: '⏳' } : d)
     }));
     
-    toast.loading('Uploading to secure vault...', { id: `doc-${docId}` });
+    showToast('Uploading to secure vault...', 'loading', 2500);
     
     setTimeout(() => {
-      toast.loading('AI-Agent verifying authenticity...', { id: `doc-${docId}` });
+      showToast('AI-Agent verifying authenticity...', 'loading', 4500);
       
       setTimeout(() => {
         set((s) => ({
@@ -250,7 +250,7 @@ const useDashboardStore = create((set, get) => ({
             ...s.notifications
           ]
         }));
-        toast.success('Document verified & encrypted!', { id: `doc-${docId}` });
+        showToast('Document verified & encrypted! 🛡️', 'success');
       }, 4000);
     }, 2000);
   },
@@ -260,7 +260,7 @@ const useDashboardStore = create((set, get) => ({
       documents: s.documents.map(d => d.id === docId ? { ...d, status, icon: status === 'Verified' ? '🛡️' : '⚖️' } : d)
     }));
     if (status === 'Verified') {
-      toast.success('Document status updated to APPROVED.');
+      showToast('Document status updated to APPROVED. ✅', 'success');
     }
   },
 
@@ -274,14 +274,14 @@ const useDashboardStore = create((set, get) => ({
       message: `Your next EMI has been scheduled for auto-debit on ${date}.`,
       type: 'info'
     });
-    toast.success(`EMI Scheduled for ${date}`);
+    showToast(`EMI Scheduled for ${date} ✅`, 'success');
   },
 
   requestTopup: async () => {
     const { addNotification, loan } = get();
     if (!loan) return;
 
-    toast.loading('Analyzing eligibility for Top-up...');
+    showToast('Analyzing eligibility for Top-up...', 'loading', 2500);
     
     setTimeout(() => {
       addNotification({
@@ -289,19 +289,15 @@ const useDashboardStore = create((set, get) => ({
         message: `Based on your ${get().getCreditGrade().grade} status, you are eligible for an additional ₹5,00,000 at 8.9% interest.`,
         type: 'offer'
       });
-      toast.success('Top-up application pre-approved!', { duration: 5000 });
+      showToast('Top-up application pre-approved! 🎉', 'success', 5000);
     }, 2000);
   },
 
   downloadStatement: () => {
-    toast.promise(
-      new Promise(resolve => setTimeout(resolve, 2000)),
-      {
-        loading: 'Generating digitally signed PDF statement...',
-        success: 'Statement downloaded successfully (vault-signed).',
-        error: 'Failed to generate statement.'
-      }
-    );
+    showToast('Generating digitally signed PDF statement...', 'loading', 2500);
+    setTimeout(() => {
+      showToast('Statement downloaded successfully (vault-signed). 📄', 'success');
+    }, 2200);
   },
 
   // ────────────────────────────────────────────

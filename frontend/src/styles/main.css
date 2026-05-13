@@ -345,3 +345,23 @@ body.theme-light .theme-toggle {
 		text-align: center;
 	}
 }
+
+/* ─── React Hot Toast Premium Styles ────────────────────────────── */
+
+.toast-portal > div {
+	background: transparent !important;
+}
+
+.toast-bubble {
+	background: #ffffff !important;
+	color: #1e293b !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 14px !important;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12) !important;
+	font-size: 0.875rem !important;
+	font-weight: 600 !important;
+	font-family: "Manrope", sans-serif !important;
+	opacity: 1 !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+}

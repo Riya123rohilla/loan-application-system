@@ -1,6 +1,7 @@
 import "./styles/main.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
+import { PremiumToastContainer } from "./components/PremiumToast";
 import AuthPage from "./pages/Auth";
 import LoanDetails from "./pages/LoanDetails";
 
@@ -104,6 +105,7 @@ function AppShell() {
 					<Route path="/auth" element={<AuthPage />} />
 				</Routes>
 			</main>
+			<PremiumToastContainer />
 		</div>
 	);
 }
