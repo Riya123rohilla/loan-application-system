@@ -207,6 +207,45 @@ const useDashboardStore = create((set, get) => ({
     return true;
   },
 
+  executePrepayment: async (amount, interestSaved, monthsReduced) => {
+    const { loan } = get();
+    if (!loan) return;
+
+    showToast(`Processing strategic prepayment of ₹${amount.toLocaleString()}...`, 'loading', 2500);
+
+    // Simulate delay
+    await new Promise(r => setTimeout(r, 2500));
+
+    const newTxn = {
+      id: `TXN-P-${Date.now()}`, amount, method: 'Prepayment',
+      date: new Date().toISOString(), status: 'Success',
+      ref: `REF-${Math.floor(Math.random() * 90000 + 10000)}`
+    };
+
+    set((s) => ({
+      loan: {
+        ...s.loan,
+        remainingBalance: s.loan.remainingBalance - amount,
+        paidAmount: s.loan.paidAmount + amount,
+        tenureRemaining: Math.max(0, s.loan.tenureRemaining - monthsReduced)
+      },
+      repayments: [newTxn, ...s.repayments],
+      notifications: [
+        { 
+          id: `n-${Date.now()}`, 
+          title: 'Prepayment Successful', 
+          message: `Strategic prepayment of ₹${amount.toLocaleString()} processed. You saved ₹${interestSaved.toLocaleString()} in interest!`, 
+          type: 'success', 
+          time: 'Just now', 
+          read: false 
+        },
+        ...s.notifications
+      ]
+    }));
+
+    showToast(`Strategic prepayment successful! Saved ₹${interestSaved.toLocaleString()}`, 'success');
+  },
+
   // ────────────────────────────────────────────
   //  PHASE B: NOTIFICATIONS
   // ────────────────────────────────────────────

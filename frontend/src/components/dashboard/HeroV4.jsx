@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import toast from 'react-hot-toast';
 import useDashboardStore from '../../store/dashboardStore';
 
 const HeroV4 = ({ onPayClick, onScheduleClick, onHistoryClick, onTopupClick }) => {

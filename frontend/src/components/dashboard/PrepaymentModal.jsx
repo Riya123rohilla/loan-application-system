@@ -1,25 +1,12 @@
 import React from 'react';
 import DashboardModal from './DashboardModal';
 import useDashboardStore from '../../store/dashboardStore';
-import toast from 'react-hot-toast';
 
 const PrepaymentModal = ({ isOpen, onClose, amount, interestSaved, monthsReduced }) => {
-  const { loan, addNotification } = useDashboardStore();
+  const { executePrepayment } = useDashboardStore();
 
-  const handleExecute = () => {
-    toast.promise(
-      new Promise(resolve => setTimeout(resolve, 2000)),
-      {
-        loading: 'Processing strategic prepayment via secure gateway...',
-        success: 'Prepayment successful! Tenure reduced.',
-        error: 'Payment failed.'
-      }
-    );
-    addNotification({
-      title: 'Strategic Prepayment',
-      message: `₹${amount.toLocaleString()} paid. Total interest saved: ₹${interestSaved.toLocaleString()}.`,
-      type: 'success'
-    });
+  const handleExecute = async () => {
+    await executePrepayment(amount, interestSaved, monthsReduced);
     onClose();
   };
 
