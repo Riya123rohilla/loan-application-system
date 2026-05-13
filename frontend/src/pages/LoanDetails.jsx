@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Toaster } from 'react-hot-toast';
-import toast from 'react-hot-toast';
 import useDashboardStore from '../store/dashboardStore';
+import { showToast } from '../components/PremiumToast';
 
 // Enterprise Components
 import LoanFilterBar from '../components/dashboard/LoanFilterBar';
@@ -23,6 +22,7 @@ import OfferModal from '../components/dashboard/OfferModal';
 import ContactModal from '../components/dashboard/ContactModal';
 import ReceiptModal from '../components/dashboard/ReceiptModal';
 import DocumentVault from '../components/dashboard/DocumentVault';
+import DashboardModal from '../components/dashboard/DashboardModal';
 
 import '../styles/loan-details.css';
 
@@ -56,11 +56,11 @@ const LoanDetails = () => {
   const [selectedDoc, setSelectedDoc] = useState(null);
 
   const handleOfficerCall = () => {
-    toast.success('Initializing secure VoIP connection with Arjun Mehra...', { icon: '📞' });
+    showToast('Initializing secure VoIP connection with Arjun Mehra...', 'info');
   };
 
   const handleOfficerChat = () => {
-    toast('Opening encrypted chat channel...', { icon: '📩' });
+    showToast('Opening encrypted chat channel...', 'info');
   };
 
   useEffect(() => { fetchDashboardData(); }, [fetchDashboardData]);
@@ -77,18 +77,7 @@ const LoanDetails = () => {
 
   return (
     <div className="dashboard-container">
-      <Toaster 
-        position="top-right" 
-        toastOptions={{ 
-          style: { 
-            background: 'var(--dash-surface-solid)', 
-            color: 'var(--dash-text)', 
-            border: '1px solid var(--dash-border)',
-            borderRadius: '16px',
-            backdropFilter: 'blur(10px)'
-          } 
-        }} 
-      />
+      {/* Premium notifications are now handled by PremiumToastContainer in App.jsx */}
       
       <HeroV4 
         onPayClick={() => setPayModalOpen(true)} 
@@ -261,26 +250,48 @@ const LoanDetails = () => {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px' }}>
+              <button 
+                className="btn-action" 
+                style={{ flex: 1, background: 'var(--dash-accent)' }} 
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = 'application/pdf,image/*';
+                  input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    useDashboardStore.getState().uploadDocument(selectedDoc.id);
+                    setSelectedDoc(null);
+                  };
+                  input.click();
+                }}
+              >
+                Re-upload 🔄
+              </button>
               {selectedDoc.status === 'Reviewing' && (
-                <button className="btn-action" style={{ flex: 2, background: 'var(--dash-success)' }} onClick={() => {
+                <button className="btn-action" style={{ flex: 1, background: 'var(--dash-success)' }} onClick={() => {
                   useDashboardStore.getState().setDocumentStatus(selectedDoc.id, 'Verified');
                   setSelectedDoc(null);
                 }}>
-                  Simulate Approval ✅
+                  Approve ✅
                 </button>
               )}
               {selectedDoc.status === 'Verified' && (
-                <button className="btn-action" style={{ flex: 2 }} onClick={() => {
-                  toast.success('Document downloaded for offline viewing.');
+                <button className="btn-action" style={{ flex: 1 }} onClick={() => {
+                  showToast('Document downloaded for offline viewing.', 'success');
                   setSelectedDoc(null);
                 }}>
-                  Download Copy 📥
+                  Download 📥
                 </button>
               )}
-              <button className="btn-action secondary" style={{ flex: 1 }} onClick={() => setSelectedDoc(null)}>
-                Close
-              </button>
             </div>
+            <button 
+              className="btn-action secondary" 
+              style={{ width: '100%', marginTop: '12px' }} 
+              onClick={() => setSelectedDoc(null)}
+            >
+              Close
+            </button>
           </div>
         </DashboardModal>
       )}

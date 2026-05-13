@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import useDashboardStore from '../../store/dashboardStore';
-import toast from 'react-hot-toast';
 
 const DocumentVault = ({ onDocClick }) => {
   const { documents, uploadDocument, setDocumentStatus } = useDashboardStore();
@@ -53,18 +52,11 @@ const DocumentVault = ({ onDocClick }) => {
     if (doc.status === 'Pending') {
       const input = document.createElement('input');
       input.type = 'file';
+      input.accept = 'application/pdf,image/*';
       input.onchange = (e) => {
-        toast.promise(
-          new Promise(resolve => setTimeout(resolve, 2500)),
-          {
-            loading: `Uploading ${doc.name} to secure vault...`,
-            success: () => {
-              uploadDocument(doc.id);
-              return `${doc.name} uploaded successfully!`;
-            },
-            error: 'Upload failed.'
-          }
-        );
+        const file = e.target.files[0];
+        if (!file) return;
+        uploadDocument(doc.id);
       };
       input.click();
     } else {
@@ -73,52 +65,54 @@ const DocumentVault = ({ onDocClick }) => {
   };
 
   return (
-    <div className="vault-grid">
+    <div className="vault-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
       {documents.map((doc) => {
         const s = getStatusStyle(doc.status);
+        const isUploading = doc.status === 'Reviewing' || doc.status === 'Processing';
+        
         return (
           <div
             key={doc.id}
             onClick={() => handleDocClick(doc)}
             style={{
-              padding: '32px 24px', textAlign: 'center', borderRadius: '28px',
+              padding: '24px', textAlign: 'center', borderRadius: '24px',
               border: s.border, background: s.bg,
-              cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              cursor: 'pointer', transition: 'all 0.3s ease',
               position: 'relative', overflow: 'hidden',
-              boxShadow: doc.status === 'Verified' ? '0 10px 30px rgba(16, 185, 129, 0.05)' : 'none'
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              boxShadow: doc.status === 'Verified' ? '0 10px 25px rgba(16, 185, 129, 0.08)' : '0 4px 12px rgba(0,0,0,0.02)'
             }}
             className="vault-item"
           >
             <div style={{ 
-              fontSize: '2.8rem', marginBottom: '20px', 
-              filter: doc.status === 'Pending' ? 'grayscale(1) opacity(0.2)' : 'none',
-              transform: 'translateZ(0)',
+              fontSize: '2.4rem', marginBottom: '16px', 
+              filter: doc.status === 'Pending' ? 'grayscale(0.5) opacity(0.5)' : 'none',
               transition: 'transform 0.3s ease'
             }} className="vault-icon">
               {doc.icon}
             </div>
             
-            <h5 style={{ margin: '0 0 6px', fontSize: '0.9rem', fontWeight: '800', color: 'var(--dash-text)', letterSpacing: '-0.02em' }}>
+            <h5 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: '700', color: 'var(--dash-text)' }}>
               {doc.name}
             </h5>
             
-            <p style={{ margin: '0 0 20px', fontSize: '0.68rem', color: 'var(--dash-text-muted)', fontWeight: '600' }}>
+            <p style={{ margin: '0 0 16px', fontSize: '0.7rem', color: 'var(--dash-text-muted)', fontWeight: '500' }}>
               {doc.date === '-' ? 'Waiting for upload' : `Auth: ${doc.date}`}
             </p>
             
             <div style={{ 
-              display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 14px', 
-              borderRadius: '100px', fontSize: '0.68rem', fontWeight: '800',
-              background: doc.status === 'Verified' ? 'rgba(16, 185, 129, 0.12)' : 
-                         doc.status === 'Reviewing' ? 'rgba(245, 158, 11, 0.12)' : 'rgba(0,0,0,0.05)',
+              display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', 
+              borderRadius: '100px', fontSize: '0.7rem', fontWeight: '700',
+              background: doc.status === 'Verified' ? 'rgba(16, 185, 129, 0.1)' : 
+                         doc.status === 'Reviewing' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(0,0,0,0.05)',
               color: s.color,
-              border: `1px solid ${doc.status === 'Pending' ? 'transparent' : s.color.replace(')', ', 0.15)')}`
+              border: `1px solid ${doc.status === 'Pending' ? 'rgba(0,0,0,0.1)' : s.color.replace(')', ', 0.2)')}`
             }}>
               <span style={{ fontSize: '0.8rem' }}>{s.icon}</span>
-              <span style={{ letterSpacing: '0.05em' }}>{s.badge.toUpperCase()}</span>
+              <span>{s.badge.toUpperCase()}</span>
             </div>
 
-            {doc.status === 'Reviewing' && (
+            {isUploading && (
               <div style={{ marginTop: '16px', width: '100%' }}>
                 <div style={{ height: '4px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '10px', overflow: 'hidden' }}>
                   <motion.div 
@@ -127,19 +121,19 @@ const DocumentVault = ({ onDocClick }) => {
                     style={{ height: '100%', background: 'var(--dash-warning)', borderRadius: '10px' }}
                   />
                 </div>
-                <p style={{ margin: '8px 0 0', fontSize: '0.6rem', color: 'var(--dash-warning)', fontWeight: '800' }}>
-                  AI VERIFICATION: {progress[doc.id] || 0}%
+                <p style={{ margin: '8px 0 0', fontSize: '0.6rem', color: 'var(--dash-warning)', fontWeight: '700' }}>
+                  AI SCAN: {progress[doc.id] || 0}%
                 </p>
               </div>
             )}
 
             {doc.status === 'Pending' && (
               <div style={{ 
-                marginTop: '16px', fontSize: '0.72rem', color: 'var(--dash-accent)', 
-                fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' 
+                marginTop: '12px', fontSize: '0.75rem', color: '#6366f1', 
+                fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' 
               }}>
                 <span style={{ fontSize: '1rem' }}>↑</span>
-                <span style={{ textDecoration: 'underline', textUnderlineOffset: '3px' }}>Tap to Upload</span>
+                <span style={{ textDecoration: 'underline' }}>Tap to Upload</span>
               </div>
             )}
           </div>

@@ -19,8 +19,6 @@ const navCtaClass = ({ isActive }) =>
 function AppShell() {
 	const location = useLocation();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isLightMode, setIsLightMode] = useState(false);
-	const location = useLocation();
 
 	const isDashboard = location.pathname.startsWith("/dashboard");
 
@@ -28,14 +26,6 @@ function AppShell() {
 	useEffect(() => {
 		setIsMenuOpen(false);
 	}, [location.pathname]);
-
-	// Theme toggle effect
-	useEffect(() => {
-		document.body.classList.toggle("theme-light", isLightMode);
-		return () => document.body.classList.remove("theme-light");
-	}, [isLightMode]);
-
-	const isDashboard = location.pathname.startsWith("/dashboard");
 
 	return (
 		<div className="app">
@@ -69,14 +59,6 @@ function AppShell() {
 
 					<div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
 						<button 
-							className="theme-toggle"
-							onClick={() => setIsLightMode(!isLightMode)}
-							aria-label="Toggle theme"
-						>
-							{isLightMode ? '🌙' : '☀️'}
-						</button>
-
-						<button 
 							className={`menu-toggle ${isMenuOpen ? 'is-active' : ''}`} 
 							onClick={() => setIsMenuOpen(!isMenuOpen)}
 							aria-label="Toggle menu"
@@ -93,6 +75,7 @@ function AppShell() {
 						</NavLink>
 						<NavLink className={navLinkClass} to="/loan-details/loan-456">
 							Loan Details
+						</NavLink>
 						<NavLink className={navLinkClass} to="/products">
 							Products
 						</NavLink>
@@ -108,11 +91,14 @@ function AppShell() {
 
 			<main>
 				<Routes>
-					<Route path="/" element={<HomePage />} />
+					<Route path="/" element={<Home />} />
 					<Route path="/loan-details/:id" element={<LoanDetails />} />
 					<Route path="/loan-details" element={<LoanDetails />} />
-					<Route path="/help" element={<HelpPage />} />
+					<Route path="/help" element={<Help />} />
 					<Route path="/auth" element={<AuthPage />} />
+					<Route path="/products" element={<Products />} />
+					<Route path="/apply" element={<LoanApplication />} />
+					<Route path="/dashboard/*" element={<UserDashboard />} />
 				</Routes>
 			</main>
 			<PremiumToastContainer />
@@ -125,41 +111,7 @@ function App() {
 		<BrowserRouter>
 			<AppShell />
 		</BrowserRouter>
-			<main>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/products" element={<Products />} />
-					<Route path="/help" element={<Help />} />
-					<Route path="/auth" element={<AuthPage />} />
-					<Route path="/apply" element={<LoanApplication />} />
-					<Route path="/dashboard/*" element={<UserDashboard />} />
-				</Routes>
-			</main>
-		</div>
-	);
-}
-
-function App() {
-	return (
-		<BrowserRouter>
-			<AppShell />
-		</BrowserRouter>
-	);
-}
-
-// ===== How It Works Section =====
-function HelpPage() {
-	return (
-		<section className="section section--alt">
-			<div className="section__content">
-				<h2 className="section__title">How It Works</h2>
-				<p className="section__text">
-					Placeholder for guidance, FAQs, and application support.
-				</p>
-			</div>
-		</section>
 	);
 }
 
 export default App;
-

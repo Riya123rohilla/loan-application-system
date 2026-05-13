@@ -44,9 +44,9 @@ const MOCK_CREDIT_HISTORY = [
 ];
 
 const MOCK_DOCUMENTS = [
-  { id: 1, name: 'PAN Card', status: 'Verified', date: '2026-03-15', icon: '🛡️' },
-  { id: 2, name: 'Aadhaar Card', status: 'Verified', date: '2026-03-15', icon: '🛡️' },
-  { id: 3, name: 'Salary Slip', status: 'Processing', date: '2026-05-01', icon: '⏳' },
+  { id: 1, name: 'PAN Card', status: 'Pending', date: '-', icon: '📁' },
+  { id: 2, name: 'Aadhaar Card', status: 'Pending', date: '-', icon: '📁' },
+  { id: 3, name: 'Salary Slip', status: 'Pending', date: '-', icon: '📁' },
   { id: 4, name: 'Bank Statement', status: 'Pending', date: '-', icon: '📁' },
   { id: 5, name: 'Tax Returns', status: 'Pending', date: '-', icon: '📁' }
 ];
