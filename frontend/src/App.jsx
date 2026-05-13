@@ -4,6 +4,11 @@ import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router
 import { PremiumToastContainer } from "./components/PremiumToast";
 import AuthPage from "./pages/Auth";
 import LoanDetails from "./pages/LoanDetails";
+import Home from "./pages/Home";
+import Help from "./pages/Help";
+import Products from "./pages/Products";
+import LoanApplication from "./pages/Application/LoanApplication";
+import UserDashboard from "./userdashboard/UserDashboard";
 
 const navLinkClass = ({ isActive }) =>
 	`navbar__link${isActive ? " navbar__link--active" : ""}`;
@@ -15,6 +20,7 @@ function AppShell() {
 	const location = useLocation();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isLightMode, setIsLightMode] = useState(false);
+	const location = useLocation();
 
 	const isDashboard = location.pathname.startsWith("/dashboard");
 
@@ -28,6 +34,8 @@ function AppShell() {
 		document.body.classList.toggle("theme-light", isLightMode);
 		return () => document.body.classList.remove("theme-light");
 	}, [isLightMode]);
+
+	const isDashboard = location.pathname.startsWith("/dashboard");
 
 	return (
 		<div className="app">
@@ -85,6 +93,8 @@ function AppShell() {
 						</NavLink>
 						<NavLink className={navLinkClass} to="/loan-details/loan-456">
 							Loan Details
+						<NavLink className={navLinkClass} to="/products">
+							Products
 						</NavLink>
 						<NavLink className={navLinkClass} to="/help">
 							Help
@@ -115,22 +125,25 @@ function App() {
 		<BrowserRouter>
 			<AppShell />
 		</BrowserRouter>
+			<main>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/products" element={<Products />} />
+					<Route path="/help" element={<Help />} />
+					<Route path="/auth" element={<AuthPage />} />
+					<Route path="/apply" element={<LoanApplication />} />
+					<Route path="/dashboard/*" element={<UserDashboard />} />
+				</Routes>
+			</main>
+		</div>
 	);
 }
 
-// ===== Home Section =====
-function HomePage() {
+function App() {
 	return (
-		<section className="section section--hero">
-			<div className="section__content">
-				<p className="section__eyebrow">Loan Application System</p>
-				<h1 className="section__title">Simple. Secure. Smart Lending.</h1>
-				<p className="section__text">
-					A modern, streamlined platform for submitting and tracking loan
-					applications with confidence.
-				</p>
-			</div>
-		</section>
+		<BrowserRouter>
+			<AppShell />
+		</BrowserRouter>
 	);
 }
 
@@ -149,3 +162,4 @@ function HelpPage() {
 }
 
 export default App;
+
