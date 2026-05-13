@@ -3,14 +3,11 @@ import { motion } from 'framer-motion';
 import useDashboardStore from '../../store/dashboardStore';
 import toast from 'react-hot-toast';
 
-const RepaymentTimeline = () => {
+const RepaymentTimeline = ({ onReceiptClick }) => {
   const { repayments } = useDashboardStore();
 
-  const handleReceipt = (ref) => {
-    toast.promise(
-      new Promise(r => setTimeout(r, 1200)),
-      { loading: `Generating receipt ${ref}...`, success: `Receipt ${ref} downloaded.`, error: 'Failed.' }
-    );
+  const handleReceipt = (rep) => {
+    onReceiptClick(rep);
   };
 
   if (!repayments.length) {
@@ -25,28 +22,38 @@ const RepaymentTimeline = () => {
           initial={{ x: 20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: idx * 0.08 }}
-          style={{ position: 'relative', paddingLeft: '25px', marginBottom: '18px', borderLeft: '2px solid rgba(255,255,255,0.06)' }}
+          style={{ 
+            position: 'relative', 
+            paddingLeft: '30px', 
+            marginBottom: '24px', 
+            borderLeft: '2px solid var(--dash-border)' 
+          }}
         >
           <div style={{
-            position: 'absolute', left: '-5px', top: '6px', width: '8px', height: '8px', borderRadius: '50%',
-            background: rep.status === 'Success' ? '#00c853' : '#ff5252',
-            boxShadow: `0 0 8px ${rep.status === 'Success' ? 'rgba(0,200,83,0.4)' : 'rgba(255,82,82,0.4)'}`
+            position: 'absolute', 
+            left: '-5px', 
+            top: '6px', 
+            width: '8px', 
+            height: '8px', 
+            borderRadius: '50%',
+            background: rep.status === 'Success' ? 'var(--dash-success)' : '#ef4444',
+            boxShadow: `0 0 12px ${rep.status === 'Success' ? 'var(--dash-accent-glow)' : 'rgba(239, 68, 68, 0.4)'}`
           }}></div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <p style={{ margin: 0, fontWeight: '700', fontSize: '0.95rem' }}>₹{rep.amount.toLocaleString()}</p>
-              <p style={{ margin: '2px 0 0', fontSize: '0.7rem', opacity: 0.5 }}>
+              <p style={{ margin: 0, fontWeight: '800', fontSize: '1rem', color: 'var(--dash-text)' }}>₹{rep.amount.toLocaleString()}</p>
+              <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: 'var(--dash-text-muted)', fontWeight: '600' }}>
                 {rep.method} • {rep.status}
               </p>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <p style={{ margin: 0, fontSize: '0.75rem', opacity: 0.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--dash-text-muted)', fontWeight: '500' }}>
                 {new Date(rep.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
               </p>
               <button
-                onClick={() => handleReceipt(rep.ref || rep.id)}
-                style={{ background: 'none', border: 'none', color: '#6fb2ff', fontSize: '0.65rem', cursor: 'pointer', padding: 0, marginTop: '3px' }}
+                onClick={() => handleReceipt(rep)}
+                style={{ background: 'none', border: 'none', color: 'var(--dash-accent)', fontSize: '0.7rem', cursor: 'pointer', padding: 0, marginTop: '4px', fontWeight: '700' }}
               >📥 Receipt</button>
             </div>
           </div>
@@ -54,9 +61,9 @@ const RepaymentTimeline = () => {
       ))}
 
       {repayments.length > 5 && (
-        <button className="btn-action" style={{ width: '100%', justifyContent: 'center', fontSize: '0.7rem', marginTop: '8px' }}
-          onClick={() => toast.success(`Showing all ${repayments.length} transactions...`)}>
-          View All ({repayments.length})
+        <button className="btn-action secondary" style={{ width: '100%', fontSize: '0.8rem', marginTop: '12px' }}
+          onClick={() => toast.success(`Viewing all ${repayments.length} transactions in secure vault...`)}>
+          View Full History ({repayments.length})
         </button>
       )}
     </div>

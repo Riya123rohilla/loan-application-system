@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { showToast } from '../components/PremiumToast';
 
 // ─────────── MOCK DATA (Backend-ready fallbacks) ───────────
 const MOCK_LOAN = {
@@ -198,12 +198,12 @@ const useDashboardStore = create((set, get) => ({
       repayments: [newTxn, ...s.repayments],
       creditHistory: [...s.creditHistory.slice(1), { month: new Date().toLocaleString('en', { month: 'short' }), score: Math.min(900, s.loan.applicantDetails.creditScore + 3) }],
       notifications: [
-        { id: `n-${Date.now()}`, title: 'Payment Confirmed', message: `₹${loan.emiAmount.toLocaleString()} paid via ${method}. Balance: ₹${(loan.remainingBalance - loan.emiAmount).toLocaleString()}`, type: 'success', time: 'Just now', read: false },
+        { id: `n-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, title: 'Payment Confirmed', message: `₹${loan.emiAmount.toLocaleString()} paid via ${method}. Balance: ₹${(loan.remainingBalance - loan.emiAmount).toLocaleString()}`, type: 'success', time: 'Just now', read: false },
         ...s.notifications
       ]
     }));
 
-    toast.success(`₹${loan.emiAmount.toLocaleString()} paid successfully via ${method}!`);
+    showToast(`₹${loan.emiAmount.toLocaleString()} paid successfully via ${method}!`, 'success');
     return true;
   },
 
@@ -219,7 +219,7 @@ const useDashboardStore = create((set, get) => ({
   })),
 
   addNotification: (notif) => set((s) => ({
-    notifications: [{ ...notif, id: `n-${Date.now()}`, read: false, time: 'Just now' }, ...s.notifications]
+    notifications: [{ ...notif, id: `n-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, read: false, time: 'Just now' }, ...s.notifications]
   })),
 
   // ────────────────────────────────────────────
@@ -227,23 +227,81 @@ const useDashboardStore = create((set, get) => ({
   // ────────────────────────────────────────────
   uploadDocument: (docId) => {
     set((s) => ({
-      documents: s.documents.map(d => d.id === docId ? { ...d, status: 'Processing', date: new Date().toLocaleDateString(), icon: '⏳' } : d)
+      documents: s.documents.map(d => d.id === docId ? { ...d, status: 'Reviewing', date: new Date().toLocaleDateString(), icon: '⏳' } : d)
     }));
-    toast.loading('Uploading to secure vault...', { id: `doc-${docId}` });
+    
+    showToast('Uploading to secure vault...', 'loading', 2500);
+    
     setTimeout(() => {
-      set((s) => ({
-        documents: s.documents.map(d => d.id === docId ? { ...d, status: 'Verified', icon: '🛡️' } : d),
-        notifications: [
-          { id: `n-doc-${Date.now()}`, title: 'Document Verified', message: `Your document has been verified successfully.`, type: 'success', time: 'Just now', read: false },
-          ...s.notifications
-        ]
-      }));
-      toast.success('Document verified!', { id: `doc-${docId}` });
-    }, 3000);
+      showToast('AI-Agent verifying authenticity...', 'loading', 4500);
+      
+      setTimeout(() => {
+        set((s) => ({
+          documents: s.documents.map(d => d.id === docId ? { ...d, status: 'Verified', icon: '🛡️' } : d),
+          notifications: [
+            { 
+              id: `n-doc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, 
+              title: 'Verification Complete', 
+              message: `Authentication of your ${s.documents.find(d => d.id === docId)?.name} is successful.`, 
+              type: 'success', 
+              time: 'Just now', 
+              read: false 
+            },
+            ...s.notifications
+          ]
+        }));
+        showToast('Document verified & encrypted! 🛡️', 'success');
+      }, 4000);
+    }, 2000);
+  },
+
+  setDocumentStatus: (docId, status) => {
+    set((s) => ({
+      documents: s.documents.map(d => d.id === docId ? { ...d, status, icon: status === 'Verified' ? '🛡️' : '⚖️' } : d)
+    }));
+    if (status === 'Verified') {
+      showToast('Document status updated to APPROVED. ✅', 'success');
+    }
   },
 
   // ────────────────────────────────────────────
-  //  PHASE C: CREDIT SCORE TRACKING
+  //  PHASE D: EXTENDED ACTIONS (Schedule, Top-up, Statement)
+  // ────────────────────────────────────────────
+  schedulePayment: (date) => {
+    const { addNotification } = get();
+    addNotification({
+      title: 'Auto-Debit Scheduled',
+      message: `Your next EMI has been scheduled for auto-debit on ${date}.`,
+      type: 'info'
+    });
+    showToast(`EMI Scheduled for ${date} ✅`, 'success');
+  },
+
+  requestTopup: async () => {
+    const { addNotification, loan } = get();
+    if (!loan) return;
+
+    showToast('Analyzing eligibility for Top-up...', 'loading', 2500);
+    
+    setTimeout(() => {
+      addNotification({
+        title: 'Top-up Pre-Approved',
+        message: `Based on your ${get().getCreditGrade().grade} status, you are eligible for an additional ₹5,00,000 at 8.9% interest.`,
+        type: 'offer'
+      });
+      showToast('Top-up application pre-approved! 🎉', 'success', 5000);
+    }, 2000);
+  },
+
+  downloadStatement: () => {
+    showToast('Generating digitally signed PDF statement...', 'loading', 2500);
+    setTimeout(() => {
+      showToast('Statement downloaded successfully (vault-signed). 📄', 'success');
+    }, 2200);
+  },
+
+  // ────────────────────────────────────────────
+  //  PHASE B: CREDIT SCORE TRACKING
   // ────────────────────────────────────────────
   getCreditGrade: () => {
     const score = get().loan?.applicantDetails?.creditScore || 0;

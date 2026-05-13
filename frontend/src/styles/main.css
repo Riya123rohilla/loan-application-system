@@ -57,6 +57,12 @@ ul {
 	justify-content: space-between;
 }
 
+@media (max-width: 768px) {
+	.navbar {
+		padding: 20px 16px;
+	}
+}
+
 .navbar__brand {
 	display: flex;
 	align-items: center;
@@ -849,6 +855,67 @@ ul {
 	margin-top: 4px;
 }
 
+/* ===== Responsive ===== */
+.menu-toggle {
+	display: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 10px;
+	z-index: 2000;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.menu-toggle span {
+	display: block;
+	width: 28px;
+	height: 3px;
+	background: var(--blue-300);
+	border-radius: 4px;
+	transition: all 0.3s ease;
+}
+
+.menu-toggle.is-active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.menu-toggle.is-active span:nth-child(2) { opacity: 0; }
+.menu-toggle.is-active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+@media (max-width: 992px) {
+	.menu-toggle { display: flex; }
+	
+	.navbar__menu {
+		position: fixed;
+		top: 80px;
+		left: 0;
+		width: 100%;
+		height: calc(100vh - 80px);
+		background: rgba(11, 14, 20, 0.98);
+		backdrop-filter: blur(10px);
+		flex-direction: column;
+		justify-content: center;
+		gap: 40px;
+		transform: translateX(100%);
+		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		z-index: 1500;
+	}
+
+	body.theme-light .navbar__menu {
+		background: rgba(255, 255, 255, 0.98);
+	}
+	
+	.navbar__menu.is-open {
+		transform: translateX(0);
+	}
+
+	.navbar__link {
+		font-size: 1.5rem;
+		font-weight: 700;
+	}
+}
+
+@media (max-width: 820px) {
+	.navbar {
+		padding: 18px 16px;
 /* ===== Responsive Overhaul ===== */
 
 @media (max-width: 1024px) {
@@ -1147,4 +1214,24 @@ ul {
 	.product-actions {
 		flex-direction: column;
 	}
+}
+
+/* ─── React Hot Toast Premium Styles ────────────────────────────── */
+
+.toast-portal > div {
+	background: transparent !important;
+}
+
+.toast-bubble {
+	background: #ffffff !important;
+	color: #1e293b !important;
+	border: 1px solid #e2e8f0 !important;
+	border-radius: 14px !important;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12) !important;
+	font-size: 0.875rem !important;
+	font-weight: 600 !important;
+	font-family: "Manrope", sans-serif !important;
+	opacity: 1 !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
 }

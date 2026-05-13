@@ -1,6 +1,7 @@
 import "./styles/main.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
+import { PremiumToastContainer } from "./components/PremiumToast";
 import AuthPage from "./pages/Auth";
 import LoanDetails from "./pages/LoanDetails";
 import Home from "./pages/Home";
@@ -16,9 +17,19 @@ const navCtaClass = ({ isActive }) =>
 	`navbar__link navbar__link--cta${isActive ? " navbar__link--active" : ""}`;
 
 function AppShell() {
+	const location = useLocation();
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isLightMode, setIsLightMode] = useState(false);
 	const location = useLocation();
 
+	const isDashboard = location.pathname.startsWith("/dashboard");
+
+	// Close menu on route change
+	useEffect(() => {
+		setIsMenuOpen(false);
+	}, [location.pathname]);
+
+	// Theme toggle effect
 	useEffect(() => {
 		document.body.classList.toggle("theme-light", isLightMode);
 		return () => document.body.classList.remove("theme-light");
@@ -55,7 +66,28 @@ function AppShell() {
 							</span>
 						</span>
 					</div>
-					<nav className="navbar__menu">
+
+					<div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+						<button 
+							className="theme-toggle"
+							onClick={() => setIsLightMode(!isLightMode)}
+							aria-label="Toggle theme"
+						>
+							{isLightMode ? '🌙' : '☀️'}
+						</button>
+
+						<button 
+							className={`menu-toggle ${isMenuOpen ? 'is-active' : ''}`} 
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+							aria-label="Toggle menu"
+						>
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+					</div>
+
+					<nav className={`navbar__menu ${isMenuOpen ? 'is-open' : ''}`}>
 						<NavLink className={navLinkClass} to="/">
 							Home
 						</NavLink>
@@ -70,28 +102,28 @@ function AppShell() {
 						<NavLink className={navCtaClass} to="/auth">
 							Login / Register
 						</NavLink>
-						<button
-							className="theme-toggle"
-							onClick={() => setIsLightMode((prev) => !prev)}
-							aria-label="Toggle light or dark theme"
-							type="button"
-						>
-							💡
-						</button>
 					</nav>
 				</header>
 			)}
 
-				<main>
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/loan-details/:id" element={<LoanDetails />} />
-						<Route path="/loan-details" element={<LoanDetails />} />
-						<Route path="/help" element={<HelpPage />} />
-						<Route path="/auth" element={<AuthPage />} />
-					</Routes>
-				</main>
-			</div>
+			<main>
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/loan-details/:id" element={<LoanDetails />} />
+					<Route path="/loan-details" element={<LoanDetails />} />
+					<Route path="/help" element={<HelpPage />} />
+					<Route path="/auth" element={<AuthPage />} />
+				</Routes>
+			</main>
+			<PremiumToastContainer />
+		</div>
+	);
+}
+
+function App() {
+	return (
+		<BrowserRouter>
+			<AppShell />
 		</BrowserRouter>
 			<main>
 				<Routes>
@@ -115,7 +147,19 @@ function App() {
 	);
 }
 
+// ===== How It Works Section =====
+function HelpPage() {
+	return (
+		<section className="section section--alt">
+			<div className="section__content">
+				<h2 className="section__title">How It Works</h2>
+				<p className="section__text">
+					Placeholder for guidance, FAQs, and application support.
+				</p>
+			</div>
+		</section>
+	);
+}
+
 export default App;
-
-
 

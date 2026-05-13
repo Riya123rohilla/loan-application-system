@@ -49,60 +49,61 @@ const RepaymentCalendar = () => {
   const getDayStyle = (day) => {
     if (!day) return {};
     const e = events[day];
-    if (e?.type === 'paid') return { background: 'rgba(0,200,83,0.1)', border: '1px solid rgba(0,200,83,0.4)' };
-    if (e?.type === 'upcoming') return { background: 'rgba(255,193,7,0.1)', border: '1px solid rgba(255,193,7,0.4)' };
-    if (e?.type === 'overdue') return { background: 'rgba(255,82,82,0.1)', border: '1px solid rgba(255,82,82,0.4)' };
-    return { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' };
+    if (e?.type === 'paid') return { background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.4)' };
+    if (e?.type === 'upcoming') return { background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.4)' };
+    if (e?.type === 'overdue') return { background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.4)' };
+    return { background: 'var(--dash-border)', border: '1px solid var(--dash-border)' };
   };
 
   const dotColor = (type) => {
-    if (type === 'paid') return '#00c853';
-    if (type === 'upcoming') return '#ffc107';
-    if (type === 'overdue') return '#ff5252';
-    return '#6fb2ff';
+    if (type === 'paid') return 'var(--dash-success)';
+    if (type === 'upcoming') return 'var(--dash-warning)';
+    if (type === 'overdue') return '#ef4444';
+    return 'var(--dash-accent)';
   };
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-        <h4 style={{ margin: 0, fontSize: '0.9rem' }}>{monthName}</h4>
-        <div style={{ display: 'flex', gap: '5px' }}>
-          <button className="btn-action" style={{ padding: '4px 10px', fontSize: '0.7rem' }} onClick={() => setMonthOffset(p => p - 1)}>&lt;</button>
-          <button className="btn-action" style={{ padding: '4px 10px', fontSize: '0.7rem' }} onClick={() => setMonthOffset(0)}>Today</button>
-          <button className="btn-action" style={{ padding: '4px 10px', fontSize: '0.7rem' }} onClick={() => setMonthOffset(p => p + 1)}>&gt;</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '700' }}>{monthName}</h4>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="btn-action secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => setMonthOffset(p => p - 1)}>&lt;</button>
+          <button className="btn-action secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => setMonthOffset(0)}>Today</button>
+          <button className="btn-action secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => setMonthOffset(p => p + 1)}>&gt;</button>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px', textAlign: 'center', fontSize: '0.6rem', opacity: 0.4, marginBottom: '8px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', textAlign: 'center', fontSize: '0.7rem', fontWeight: '700', color: 'var(--dash-text-muted)', marginBottom: '12px' }}>
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i}>{d}</div>)}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
         {days.map((day, idx) => (
           <motion.div
             key={idx}
-            whileHover={day ? { scale: 1.12, zIndex: 10 } : {}}
+            whileHover={day ? { scale: 1.1, y: -2, zIndex: 10 } : {}}
             onClick={() => day && events[day] && setSelectedEvent(events[day])}
             style={{
-              height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '0.8rem', color: day ? '#fff' : 'transparent', position: 'relative',
+              height: '42px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '0.9rem', fontWeight: '600', color: day ? 'var(--dash-text)' : 'transparent', position: 'relative',
               cursor: (day && events[day]) ? 'pointer' : 'default',
+              transition: 'all 0.2s ease',
               ...getDayStyle(day)
             }}
           >
             {day}
             {day && events[day] && (
-              <div style={{ position: 'absolute', bottom: '3px', width: '4px', height: '4px', borderRadius: '50%', background: dotColor(events[day].type) }}></div>
+              <div style={{ position: 'absolute', bottom: '6px', width: '5px', height: '5px', borderRadius: '50%', background: dotColor(events[day].type) }}></div>
             )}
           </motion.div>
         ))}
       </div>
 
       {/* Legend */}
-      <div style={{ display: 'flex', gap: '12px', marginTop: '12px', justifyContent: 'center' }}>
-        {[{ label: 'Paid', color: '#00c853' }, { label: 'Upcoming', color: '#ffc107' }, { label: 'Overdue', color: '#ff5252' }].map(l => (
-          <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.6rem', opacity: 0.5 }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: l.color }}></div>
+      <div style={{ display: 'flex', gap: '16px', marginTop: '20px', justifyContent: 'center' }}>
+        {[{ label: 'Paid', color: 'var(--dash-success)' }, { label: 'Due', color: 'var(--dash-warning)' }, { label: 'Overdue', color: '#ef4444' }].map(l => (
+          <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.7rem', color: 'var(--dash-text-muted)', fontWeight: '600' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: l.color }}></div>
             {l.label}
           </div>
         ))}
