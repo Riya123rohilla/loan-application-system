@@ -33,6 +33,7 @@ const LogoComponent = () => (
 
 function AppShell() {
 	const location = useLocation();
+	const [isLightMode] = useState(false);
 
 	useEffect(() => {
 		document.body.classList.toggle("theme-light", isLightMode);
@@ -40,11 +41,6 @@ function AppShell() {
 	}, [isLightMode]);
 
 	const isDashboard = location.pathname.startsWith("/dashboard");
-
-	// Close menu on route change
-	useEffect(() => {
-		setIsMenuOpen(false);
-	}, [location.pathname]);
 
 	return (
 		<div className="app">
@@ -78,9 +74,6 @@ function AppShell() {
 					<nav className="navbar__menu">
 						<NavLink className={navLinkClass} to="/">
 							Home
-						</NavLink>
-						<NavLink className={navLinkClass} to="/loan-details/loan-456">
-							Loan Details
 						</NavLink>
 						<NavLink className={navLinkClass} to="/products">
 							Loan Details
