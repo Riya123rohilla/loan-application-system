@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,10 +21,10 @@
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.14.2",
     "recharts": "^3.8.1",
-    "vite": "^7.0.0",
     "zustand": "^5.0.13"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4"
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^8.0.13"
   }
 }
