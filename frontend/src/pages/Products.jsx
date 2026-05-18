@@ -44,41 +44,45 @@ const Products = () => {
 		<div className="products-page">
 			<section className="section section--blue-dark">
 				<div className="section__header">
-					<h1 style={{ color: '#fff', fontSize: '3rem' }}>Elite Lending Solutions</h1>
+					<h1 style={{ color: '#fff', fontSize: '3rem' }}>Loan Mate Solutions</h1>
 					<p style={{ color: 'rgba(255,255,255,0.7)' }}>A precision-engineered product for every financial milestone.</p>
 				</div>
 			</section>
 
 			<section className="section">
-				<div className="product-grid-detail">
+				<div className="product-grid-layout">
 					{products.map(product => (
-						<div key={product.id} className="product-detail-card">
-							<div className="product-detail-header">
-								<span className="product-icon">{product.icon}</span>
+						<div key={product.id} className="product-card-box">
+							<div className="product-card-header">
+								<span className="product-card-icon">{product.icon}</span>
 								<h2>{product.title}</h2>
 							</div>
-							<p className="product-desc">{product.description}</p>
+							<p className="product-card-desc">{product.description}</p>
 							
-							<div className="product-info-grid">
-								<div className="info-block">
-									<h4>Key Features</h4>
-									<ul>
-										{product.features.map((f, i) => <li key={i}>{f}</li>)}
+							<div className="product-card-info">
+								<div className="info-item">
+									<h4 className="info-label">KEY FEATURES</h4>
+									<ul className="info-list">
+										{product.features.map((f, i) => (
+                      <li key={i}>
+                        <span className="check-mark">✓</span> {f}
+                      </li>
+                    ))}
 									</ul>
 								</div>
-								<div className="info-block">
-									<h4>Eligibility</h4>
-									<p>{product.eligibility}</p>
+								<div className="info-item">
+									<h4 className="info-label">ELIGIBILITY</h4>
+									<p className="info-text">{product.eligibility}</p>
 								</div>
-								<div className="info-block">
-									<h4>Documentation</h4>
-									<p>{product.docs}</p>
+								<div className="info-item">
+									<h4 className="info-label">DOCUMENTATION</h4>
+									<p className="info-text">{product.docs}</p>
 								</div>
 							</div>
 							
-							<div className="product-actions">
-								<NavLink to="/apply" className="btn btn--solid">Apply for {product.title}</NavLink>
-								<button className="btn btn--outline">Download Brochure</button>
+							<div className="product-card-footer">
+								<NavLink to="/apply" className="btn-apply">Apply for {product.title}</NavLink>
+								<button className="btn-download">Download Brochure</button>
 							</div>
 						</div>
 					))}

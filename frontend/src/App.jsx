@@ -14,14 +14,23 @@ const navLinkClass = ({ isActive }) =>
 const navCtaClass = ({ isActive }) =>
 	`navbar__link navbar__link--cta${isActive ? " navbar__link--active" : ""}`;
 
-function AppShell() {
-	const [isLightMode, setIsLightMode] = useState(false);
-	const location = useLocation();
+const LogoComponent = () => (
+	<div className="navbar__brand">
+		<span className="logo" aria-label="LoanMate" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+			<svg className="logo__mark" viewBox="0 0 100 100" style={{ width: '42px', height: '42px' }}>
+				<path d="M20 20 L50 40 L50 90 L20 90 Z" fill="#1a4fff" />
+				<path d="M50 40 L75 25 L85 35 L85 90 L65 75 L50 90 Z" fill="#0b1b33" />
+			</svg>
+			<span className="logo__text" style={{ fontSize: '14px', fontWeight: '800', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+				<span className="logo__text--light" style={{ color: '#1a4fff' }}>Loan</span>
+				<span className="logo__text--dark" style={{ color: '#0b1b33' }}>Mate</span>
+			</span>
+		</span>
+	</div>
+);
 
-	useEffect(() => {
-		document.body.classList.toggle("theme-light", isLightMode);
-		return () => document.body.classList.remove("theme-light");
-	}, [isLightMode]);
+function AppShell() {
+	const location = useLocation();
 
 	const isDashboard = location.pathname.startsWith("/dashboard");
 
@@ -30,36 +39,13 @@ function AppShell() {
 			{/* ===== Navbar Component ===== */}
 			{!isDashboard && (
 				<header className="navbar">
-					<div className="navbar__brand">
-						<span className="logo" aria-label="LoanMate">
-							<svg
-								className="logo__mark"
-								viewBox="0 0 64 64"
-								role="img"
-								aria-hidden="true"
-								focusable="false"
-							>
-								<path
-									className="logo__mark--light"
-									d="M8 8 L30 22 L30 56 L8 56 Z"
-								/>
-								<path
-									className="logo__mark--dark"
-									d="M30 22 L48 10 L56 18 L56 56 L42 44 L30 56 Z"
-								/>
-							</svg>
-							<span className="logo__text">
-								<span className="logo__text--light">Loan</span>
-								<span className="logo__text--dark">Mate</span>
-							</span>
-						</span>
-					</div>
+					<LogoComponent />
 					<nav className="navbar__menu">
 						<NavLink className={navLinkClass} to="/">
 							Home
 						</NavLink>
 						<NavLink className={navLinkClass} to="/products">
-							Products
+							Loan Details
 						</NavLink>
 						<NavLink className={navLinkClass} to="/help">
 							Help
@@ -67,14 +53,6 @@ function AppShell() {
 						<NavLink className={navCtaClass} to="/auth">
 							Login / Register
 						</NavLink>
-						<button
-							className="theme-toggle"
-							onClick={() => setIsLightMode((prev) => !prev)}
-							aria-label="Toggle light or dark theme"
-							type="button"
-						>
-							💡
-						</button>
 					</nav>
 				</header>
 			)}

@@ -1,8 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-	--primary-blue: #1a237e;
-	--secondary-blue: #283593;
+	--bg-dark: #ffffff;
+	--text-main: #0b0f1c;
+	--nav-bg: rgba(255, 255, 255, 0.9);
+	--primary-blue: #1a4fff;
+	--secondary-blue: #1542e6;
 	--accent-orange: #f57c00;
 	--text-dark: #333333;
 	--text-light: #666666;
@@ -27,10 +30,8 @@ html {
 
 body {
 	font-family: "Poppins", sans-serif;
-	background-color: var(--white);
-	color: var(--text-dark);
-	line-height: 1.6;
-	overflow-x: hidden;
+	background-color: var(--bg-dark);
+	color: var(--text-main);
 }
 
 a {
@@ -45,22 +46,23 @@ ul {
 
 /* ===== Navbar ===== */
 .navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 60px;
+	background-color: var(--nav-bg) !important;
+	color: var(--text-main);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 	position: sticky;
 	top: 0;
 	z-index: 1000;
-	background: var(--white);
-	box-shadow: var(--shadow-sm);
-	padding: 0 6vw;
-	height: 80px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 }
 
 .navbar__brand {
 	display: flex;
 	align-items: center;
 	gap: 15px;
+	margin-right: auto;
 }
 
 .logo-placeholder {
@@ -77,6 +79,13 @@ ul {
 	background: linear-gradient(135deg, var(--accent-orange), #ff5722);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+
+.navbar__menu {
+	display: flex;
+	align-items: center;
+	gap: 32px;
+	margin-left: auto; /* Pushes the menu to the right */
 }
 
 /* ===== Hero Enhancements ===== */
@@ -249,7 +258,7 @@ ul {
 }
 
 .navbar__link:hover, .navbar__link--active {
-	color: var(--primary-blue);
+	color: #1a4fff !important;
 	border-bottom-color: var(--accent-orange);
 }
 
@@ -1140,11 +1149,116 @@ ul {
 	font-size: 1.5rem;
 }
 
-@media (max-width: 900px) {
-	.help-container {
-		grid-template-columns: 1fr;
-	}
-	.product-actions {
-		flex-direction: column;
-	}
+/* ===== Products/Loan Details Grid Layout ===== */
+.product-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding: 40px 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
+.product-card-box {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.product-card-box:hover {
+  transform: translateY(-5px);
+}
+
+.product-card-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.product-card-icon {
+  font-size: 42px;
+}
+
+.product-card-header h2 {
+  font-size: 32px;
+  color: #0b1b33;
+  font-weight: 700;
+}
+
+.product-card-desc {
+  font-size: 18px;
+  color: #667085;
+  margin-bottom: 40px;
+}
+
+.product-card-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.info-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ff8c00; /* Vibrant Orange for labels */
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.info-text {
+  font-size: 16px;
+  color: #101828;
+  line-height: 1.6;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+}
+
+.info-list li {
+  font-size: 16px;
+  color: #101828;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.check-mark {
+  color: #1a4fff;
+  font-weight: 900;
+}
+
+.product-card-footer {
+  display: flex;
+  gap: 20px;
+}
+
+.btn-apply {
+  background: #0b1b33;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.btn-download {
+  background: transparent;
+  color: #0b1b33;
+  border: 1.5px solid #0b1b33;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-apply:hover { opacity: 0.9; }
+.btn-download:hover { background: rgba(11, 27, 51, 0.05); }

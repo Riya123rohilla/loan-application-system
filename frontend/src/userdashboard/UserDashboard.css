@@ -1,4 +1,3 @@
-
 :root {
   --blue-dark: #0b1b33;
   --blue: #1a4fff;
@@ -506,31 +505,457 @@
   border-radius: 999px;
 }
 
-@media (max-width: 1024px) {
-  .loanmate {
-    grid-template-columns: 1fr;
-  }
-
-  .loanmate__sidebar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .loanmate__nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+/* ===== Documents Page Styles ===== */
+.loanmate__uploadBtn {
+  background: var(--blue);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(26, 79, 255, 0.25);
 }
 
-@media (max-width: 768px) {
-  .loanmate__header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.loanmate__uploadBtn:hover {
+  background: #1542e6;
+  transform: translateY(-2px);
+}
 
-  .loanmate__headerActions {
-    width: 100%;
-    flex-wrap: wrap;
-  }
+.loanmate__uploadBtnSmall {
+  background: var(--blue);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.loanmate__uploadBtnSmall:hover {
+  opacity: 0.9;
+}
+
+.loanmate__docsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.loanmate__docCard {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: box-shadow 0.3s ease;
+}
+
+.loanmate__docCard:hover {
+  box-shadow: var(--shadow);
+}
+
+.loanmate__docIcon {
+  font-size: 28px;
+  background: var(--gray);
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+}
+
+.loanmate__docInfo {
+  flex: 1;
+}
+
+.loanmate__docInfo h4 {
+  font-size: 15px;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+
+.loanmate__docInfo p {
+  font-size: 12px;
+  color: #667085;
+}
+
+.loanmate__docStatus {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.status--verified {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.status--processing {
+  background: #fff9eb;
+  color: #b54708;
+}
+
+.status--uploaded {
+  background: #f2f4f7;
+  color: #344054;
+}
+
+/* ===== Improved Upload UI ===== */
+.loanmate__uploadBox {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 24px;
+}
+
+.loanmate__uploadBox h3 {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: var(--black);
+}
+
+.loanmate__uploadControls {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.loanmate__inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loanmate__inputGroup label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #667085;
+}
+
+.loanmate__inputGroup input {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #d0d5dd;
+  outline: none;
+  font-size: 14px;
+}
+
+.loanmate__inputGroup input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(26, 79, 255, 0.1);
+}
+
+.loanmate__fileInput {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px dashed #d0d5dd;
+  cursor: pointer;
+  background: #fcfcfd;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.loanmate__fileInput.has-file {
+  border-style: solid;
+  border-color: var(--blue);
+  background: rgba(26, 79, 255, 0.05);
+  color: var(--blue);
+}
+
+.loanmate__uploadSubmit {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loanmate__uploadSubmit:disabled {
+  background: #98a2b3;
+  cursor: not-allowed;
+}
+
+.loanmate__emptyState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px;
+  background: rgba(0,0,0,0.02);
+  border-radius: 20px;
+  border: 2px dashed #eaecf0;
+  color: #667085;
+}
+
+.loanmate__emptyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #667085;
+}
+
+.loanmate__applyNowBtn {
+  background: var(--blue);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 20px;
+  transition: all 0.2s ease;
+}
+
+.loanmate__applyNowBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 79, 255, 0.2);
+}
+
+.loanmate__docActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loanmate__deleteBtn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.loanmate__deleteBtn:hover {
+  background: #fee4e2;
+}
+
+/* ===== Payments Page Styles ===== */
+.loanmate__payBtn {
+  background: var(--black);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.loanmate__paymentsSummary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.loanmate__paymentCard {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.loanmate__paymentCard span {
+  font-size: 13px;
+  color: #667085;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.loanmate__paymentCard h3 {
+  font-size: 24px;
+  margin: 8px 0;
+  color: var(--black);
+}
+
+.loanmate__paymentCard p {
+  font-size: 13px;
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.font-medium { font-weight: 500; }
+.font-bold { font-weight: 700; color: var(--black); }
+
+.loanmate__badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge--paid {
+  background: #ecfdf3;
+  color: #027a48;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.badge--upcoming {
+  background: #eff8ff;
+  color: #175cd3;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Clean Table Styles for Screenshot Match ===== */
+.loanmate__table--clean {
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  margin-top: 10px;
+}
+
+.loanmate__table--clean thead th {
+  background: transparent;
+  color: #101828;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px 20px;
+  border: none;
+}
+
+.loanmate__table--clean tbody tr {
+  background: transparent;
+  border-bottom: 1px solid #eaecf0; /* Added dividing line */
+}
+
+.loanmate__table--clean tbody tr:last-child {
+  border-bottom: none; /* No line after the last row */
+}
+
+.loanmate__table--clean tbody td {
+  padding: 12px 20px;
+  border: none;
+  font-size: 15px;
+  vertical-align: middle;
+}
+
+.loanmate__table--clean .font-medium {
+  color: #101828;
+  font-weight: 500;
+}
+
+.loanmate__table--clean .font-bold {
+  color: #101828;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* ===== Screen Fit / Full Width Styles ===== */
+.loanmate__panel--fullwidth {
+  width: 100%;
+  max-width: 100%;
+  padding: 40px;
+}
+
+.loanmate__tableWrapper--screenfit {
+  overflow-x: auto;
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 10px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  margin-top: 30px;
+}
+
+.loanmate__table--expanded {
+  width: 100%;
+  min-width: 900px; /* Ensures it doesn't get too cramped */
+}
+
+.loanmate__table--expanded td, 
+.loanmate__table--expanded th {
+  padding: 24px 30px !important; /* Larger padding for screen-fit feel */
+  font-size: 16px;
+}
+
+.loanmate__table--expanded .font-bold {
+  font-size: 18px;
+}
+
+/* Ensure the main dashboard content can grow */
+.loanmate__content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  background: var(--gray);
+}
+
+.loanmate__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.loanmate__statCard {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loanmate__statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+}
+
+.loanmate__statLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #667085;
+  font-weight: 500;
+}
+
+.loanmate__trend {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.loanmate__statValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0b0f1c;
+  letter-spacing: -0.5px;
+}
+
+.trend--neutral {
+  background: #f2f4f7;
+  color: #344054;
+}
+
+.trend--pending {
+  background: #fff9eb;
+  color: #b54708;
 }
