@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "rep-1",
+    "loanId": "loan-456",
+    "date": "2026-05-01",
+    "amount": 22731,
+    "method": "Auto-Debit (HDFC Bank)",
+    "status": "Success",
+    "transactionId": "TXN-98273645",
+    "type": "Monthly EMI"
+  },
+  {
+    "_id": "rep-2",
+    "loanId": "loan-456",
+    "date": "2026-04-01",
+    "amount": 22731,
+    "method": "Net Banking",
+    "status": "Success",
+    "transactionId": "TXN-98112233",
+    "type": "Monthly EMI"
+  },
+  {
+    "_id": "rep-3",
+    "loanId": "loan-456",
+    "date": "2026-03-01",
+    "amount": 22731,
+    "method": "UPI",
+    "status": "Success",
+    "transactionId": "TXN-98005544",
+    "type": "Monthly EMI"
+  }
+]
